@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.angular/
+.firebase/
+functions/lib/
+*.log
+.env
+.env.*
+!*.example
+*service-account*.json
