@@ -176,7 +176,7 @@
  .hero-image {
      position: absolute;
      inset: 0 0 0 35%;
-     background: url('/images/hero-placeholder.jpg') center/cover no-repeat;
+     background: url('images/hero-placeholder.jpg') center/cover no-repeat;
      filter: saturate(1.25)
  }
 
