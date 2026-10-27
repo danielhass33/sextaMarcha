@@ -174,12 +174,13 @@
  }
 
  .hero-image {
-     position: absolute;
-     inset: 0 0 0 35%;
-     background: url('sextaMarcha/images/hero-placeholder.jpg') center/cover no-repeat;
-     filter: saturate(1.25)
- }
-
+    position: absolute;
+    inset: 0 0 0 35%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: saturate(1.25);
+}
  .hero-overlay {
      position: absolute;
      inset: 0;

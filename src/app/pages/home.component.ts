@@ -8,7 +8,10 @@ import { services } from "../data/services";
   template: `
     <main>
       <section class="hero" id="inicio">
-        <div class="hero-image"></div>
+        <div
+          class="hero-image"
+          style="background-image: url('sextaMarcha/images/hero-placeholder.jpg')"
+        ></div>
         <div class="hero-overlay"></div>
         <div class="wrap hero-layout">
           <div class="hero-copy">
