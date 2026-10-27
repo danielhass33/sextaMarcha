@@ -1,9 +1,10 @@
 
-name: Deploy Angular no GitHub Pages
+name: Deploy Sexta Marcha
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -16,17 +17,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Baixar codigo
+      - name: Baixar repositorio
         uses: actions/checkout@v4
 
-      - name: Configurar Node
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -36,18 +38,42 @@ jobs:
         run: npm ci
 
       - name: Compilar Angular
-        run: npx ng build --configuration production --base-href /sexta-marcha/
+        run: |
+          npx ng build --configuration production --base-href /sextaMarcha/
 
-      - name: Configurar Pages
-        uses: actions/configure-pages@v5
-
-      - name: Preparar arquivos
+      - name: Preparar arquivos para publicacao
+        shell: bash
         run: |
           mkdir -p public
-          cp -r dist/sexta-marcha/browser/. public/
+
+          # Localizar automaticamente o index.html compilado
+          INDEX_FILE=$(find dist -type f -name index.html \
+            ! -path '*/server/*' | head -n 1)
+
+          if [ -z "$INDEX_FILE" ]; then
+            echo "ERRO: index.html nao encontrado em dist/"
+            exit 1
+          fi
+
+          BUILD_DIR=$(dirname "$INDEX_FILE")
+
+          echo "Publicando arquivos de: $BUILD_DIR"
+
+          cp -R "$BUILD_DIR"/. public/
+
+          # Permitir rotas internas do Angular
           cp public/index.html public/404.html
 
-      - name: Enviar arquivos
+          # Evitar processamento Jekyll
+          touch public/.nojekyll
+
+          echo "Arquivos preparados:"
+          ls -la public
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar arquivos compilados
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
