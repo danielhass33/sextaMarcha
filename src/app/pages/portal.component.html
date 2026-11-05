@@ -1,10 +1,22 @@
-<main class="portal"><h1>Portal Sexta Marcha</h1><p class="muted">Gestão de vendas, cursos e comissões</p>
-@if(service.loading()){<p>Verificando acesso...</p>}@else if(!service.user()){
-<section class="panel"><h2>Login do parceiro</h2><form (ngSubmit)="login()"><label>E-mail<input name="email" type="email" autocomplete="username" [(ngModel)]="email" required></label><label>Senha<input name="password" type="password" autocomplete="current-password" [(ngModel)]="password" required></label><button type="submit" [disabled]="busy()">{{busy()?'Entrando...':'Entrar'}}</button></form>@if(error()){<p role="alert" class="orange">{{error()}}</p>}<p class="muted">O acesso depende de habilitação prévia do estabelecimento pela Sexta Marcha.</p></section>
-}@else if(!service.role()){<section class="panel"><h2>Cadastro aguardando habilitação</h2><p>Seu usuário ainda não possui um perfil comercial ativo. Solicite a liberação à equipe Sexta Marcha.</p><button (click)="service.logout()">Sair</button></section>}
-@else{<section class="panel"><div class="grid"><div class="metric">Vendas confirmadas<strong>{{confirmed.length|number}}</strong></div><div class="metric">Faturamento confirmado<strong>{{revenue|currency:'BRL'}}</strong></div><div class="metric">Comissões registradas<strong>{{commission|currency:'BRL'}}</strong></div><div class="metric">Parceiros com vendas<strong>{{partners}}</strong></div></div><p class="muted">Indicadores calculados somente com vendas confirmadas registradas no Firestore. Não representam valores liquidados ou disponíveis para saque.</p><button (click)="refresh()">Atualizar dados</button> <button (click)="service.logout()">Sair</button></section>
-<section class="panel"><h2>Vendas por curso</h2><div class="scroll"><table><thead><tr><th>Curso</th><th>Quantidade</th><th>Faturamento</th></tr></thead><tbody>@for(c of catalog;track c.id){@if(courseCount(c.id)>0){<tr><td>{{c.title}}</td><td>{{courseCount(c.id)}}</td><td>{{courseRevenue(c.id)|currency:'BRL'}}</td></tr>}}</tbody></table></div>@if(!confirmed.length){<p class="muted">Nenhuma venda confirmada registrada.</p>}</section>
-<section class="panel"><h2>Histórico de vendas</h2><div class="scroll"><table><thead><tr><th>ID</th><th>Despachante</th><th>Curso</th><th>Valor</th><th>Comissão</th><th>Status</th></tr></thead><tbody>@for(s of service.sales();track s.id){<tr><td>{{s.id}}</td><td>{{s.partnerId}}</td><td>{{courseName(s.courseId)}}</td><td>{{s.amount|currency:'BRL'}}</td><td>{{s.commissionAmount|currency:'BRL'}}</td><td>{{s.status}}</td></tr>}</tbody></table></div></section>
-<section class="panel"><h2>Próxima etapa: operação financeira</h2><p>Cadastro de alunos, checkout, matrícula e repasse semanal serão habilitados somente após integração com provedor financeiro e parceiro educacional. Este painel não cria vendas ou transferências fictícias.</p></section>
-}
+<main class="portal">
+ <div class="ey">SEXTA MARCHA / ÁREA DO PARCEIRO</div>
+ <h1>PORTAL DO <span>DESPACHANTE.</span></h1>
+ @if(service.loading()) { <section class="panel">Carregando seu acesso...</section> }
+ @else if(!service.user()) {
+  <section class="panel login"><h2>ENTRAR NO PORTAL</h2><p class="muted">Use o e-mail e a senha cadastrados.</p>
+   <form (ngSubmit)="login()"><label>E-MAIL<input name="email" type="email" autocomplete="username" [(ngModel)]="email" required></label><label>SENHA<input name="password" type="password" autocomplete="current-password" [(ngModel)]="password" required></label><button type="submit" [disabled]="busy()">{{busy()?'ENTRANDO...':'ACESSAR →'}}</button></form>
+   <button type="button" class="text-button" (click)="reset()">Esqueci minha senha</button>
+   <p>Não tem cadastro? <a routerLink="/cadastro-despachante">Seja parceiro →</a></p>
+   @if(error()){<p class="error" role="alert">{{error()}}</p>}@if(notice()){<p class="muted" role="status">{{notice()}}</p>}
+  </section>
+ } @else if(service.role()==='master') {
+  <section class="panel"><h2>ACESSO ADMINISTRATIVO</h2><p>Seu perfil tem permissão de gestão da plataforma.</p><a class="action" routerLink="/master">ABRIR PAINEL MASTER →</a><button class="outline" (click)="service.logout()">Sair</button></section>
+ } @else if(!service.role()) {
+  <section class="panel"><h2>CADASTRO EM ANÁLISE</h2><p>Olá, {{service.profile()?.name || service.user()?.email}}.</p><p>Seu acesso foi criado. O cadastro precisa ser aprovado antes da habilitação comercial.</p><p class="muted">Status: {{service.profile()?.status || 'perfil não localizado'}}. Verifique também seu e-mail.</p><button (click)="service.logout()">SAIR</button></section>
+ } @else {
+  <section class="panel identity"><div><div class="ey">MEU ESTABELECIMENTO</div><h2>{{service.profile()?.business}}</h2><p>{{service.profile()?.name}} · {{service.profile()?.city}}</p><p>CNPJ: {{service.profile()?.cnpj}} · CRDD: {{service.profile()?.crdd}}</p><p>{{service.profile()?.email}} · {{service.profile()?.phone}}</p></div><div><span class="status">PARCEIRO ATIVO</span><button class="outline" (click)="service.logout()">SAIR</button></div></section>
+  <section class="grid"><div class="metric">VENDAS CONFIRMADAS<strong>{{count|number}}</strong></div><div class="metric">FATURAMENTO<strong>{{revenue|currency:'BRL'}}</strong></div><div class="metric">COMISSÕES REGISTRADAS<strong>{{commission|currency:'BRL'}}</strong></div></section>
+  <section class="panel"><h2>MINHAS VENDAS</h2><p class="muted">As vendas aparecerão automaticamente após a futura integração do checkout.</p><div class="scroll"><table><thead><tr><th>Curso</th><th>Valor</th><th>Comissão</th><th>Status</th></tr></thead><tbody>@for(s of service.sales();track s.id){<tr><td>{{courseName(s.courseId)}}</td><td>{{s.amount|currency:'BRL'}}</td><td>{{s.commissionAmount|currency:'BRL'}}</td><td>{{s.status}}</td></tr>}</tbody></table></div>@if(!service.sales().length){<p class="empty">Nenhuma venda registrada ainda.</p>}<button class="outline" (click)="refresh()">ATUALIZAR</button></section>
+ }
+ @if(service.error()){<p class="error">{{service.error()}}</p>}
 </main>

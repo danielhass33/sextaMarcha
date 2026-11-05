@@ -26,5 +26,10 @@ export const routes: Routes = [
     title: 'Soluções | Sexta Marcha',
     loadComponent: () => import('./pages/service-detail.component').then(m => m.ServiceDetailComponent),
   },
+  {
+    path: 'master',
+    title: 'Painel Master | Sexta Marcha',
+    loadComponent: () => import('./pages/master.component').then(m => m.MasterComponent),
+  },
   { path: '**', redirectTo: '' },
 ];

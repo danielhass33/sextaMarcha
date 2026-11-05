@@ -13,6 +13,10 @@
           <input id="partner-name" name="name" [(ngModel)]="name" autocomplete="name" minlength="3" maxlength="120" required>
           <label for="partner-business">NOME DO ESTABELECIMENTO *</label>
           <input id="partner-business" name="business" [(ngModel)]="business" maxlength="120" required>
+          <label for="partner-cnpj">CNPJ DO ESTABELECIMENTO *</label>
+          <input id="partner-cnpj" name="cnpj" [(ngModel)]="cnpj" inputmode="numeric" placeholder="00.000.000/0000-00" maxlength="18" required>
+          <label for="partner-crdd">REGISTRO / IDENTIFICAÇÃO CRDD *</label>
+          <input id="partner-crdd" name="crdd" [(ngModel)]="crdd" maxlength="60" placeholder="Número ou identificação no CRDD" required>
           <label for="partner-phone">WHATSAPP COM DDD *</label>
           <input id="partner-phone" name="phone" [(ngModel)]="phone" autocomplete="tel" type="tel" required>
           <label for="partner-city">CIDADE / UF *</label>
