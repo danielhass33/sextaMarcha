@@ -1,0 +1,12 @@
+:host{display:block;background:#0b0b0b;color:#fff;min-height:85vh}
+    .wrap-signup{max-width:1100px;margin:auto;padding:110px 24px 90px;display:grid;grid-template-columns:1fr 1fr;gap:70px}
+    .ey{color:#f18a32;letter-spacing:.15em;font-size:12px;font-weight:800}
+    h1{font-size:clamp(40px,5vw,74px);line-height:1.02;margin:25px 0;font-weight:900}
+    h1 span{color:#f18a32}p{line-height:1.7;color:#aaa}.form{background:#171717;border:1px solid #343434;padding:32px;border-radius:14px}
+    label{display:block;font-size:12px;font-weight:700;letter-spacing:.05em;margin:17px 0 6px}
+    input{width:100%;box-sizing:border-box;padding:14px;background:#0d0d0d;border:1px solid #444;color:white;border-radius:5px;font:inherit}
+    input:focus{outline:1px solid #f18a32}.check{display:flex;gap:12px;align-items:flex-start;margin:22px 0}.check input{width:auto;margin-top:5px}
+    .check label{margin:0;font-size:12px;line-height:1.6;color:#bbb;font-weight:400}
+    button{width:100%;background:#ed7b23;color:#0b0b0b;border:0;padding:17px;font-weight:900;cursor:pointer;border-radius:5px}
+    button:disabled{opacity:.55;cursor:wait}.error{color:#ffb6a8}.success{color:#9ee2b2}a{color:#f18a32}
+    @media(max-width:760px){.wrap-signup{grid-template-columns:1fr;padding:90px 20px 60px;gap:20px}.form{padding:22px}}
