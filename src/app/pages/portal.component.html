@@ -1,22 +1,442 @@
-<main class="portal">
- <div class="ey">SEXTA MARCHA / ÁREA DO PARCEIRO</div>
- <h1>PORTAL DO <span>DESPACHANTE.</span></h1>
- @if(service.loading()) { <section class="panel">Carregando seu acesso...</section> }
- @else if(!service.user()) {
-  <section class="panel login"><h2>ENTRAR NO PORTAL</h2><p class="muted">Use o e-mail e a senha cadastrados.</p>
-   <form (ngSubmit)="login()"><label>E-MAIL<input name="email" type="email" autocomplete="username" [(ngModel)]="email" required></label><label>SENHA<input name="password" type="password" autocomplete="current-password" [(ngModel)]="password" required></label><button type="submit" [disabled]="busy()">{{busy()?'ENTRANDO...':'ACESSAR →'}}</button></form>
-   <button type="button" class="text-button" (click)="reset()">Esqueci minha senha</button>
-   <p>Não tem cadastro? <a routerLink="/cadastro-despachante">Seja parceiro →</a></p>
-   @if(error()){<p class="error" role="alert">{{error()}}</p>}@if(notice()){<p class="muted" role="status">{{notice()}}</p>}
-  </section>
- } @else if(service.role()==='master') {
-  <section class="panel"><h2>ACESSO ADMINISTRATIVO</h2><p>Seu perfil tem permissão de gestão da plataforma.</p><a class="action" routerLink="/master">ABRIR PAINEL MASTER →</a><button class="outline" (click)="service.logout()">Sair</button></section>
- } @else if(!service.role()) {
-  <section class="panel"><h2>CADASTRO EM ANÁLISE</h2><p>Olá, {{service.profile()?.name || service.user()?.email}}.</p><p>Seu acesso foi criado. O cadastro precisa ser aprovado antes da habilitação comercial.</p><p class="muted">Status: {{service.profile()?.status || 'perfil não localizado'}}. Verifique também seu e-mail.</p><button (click)="service.logout()">SAIR</button></section>
- } @else {
-  <section class="panel identity"><div><div class="ey">MEU ESTABELECIMENTO</div><h2>{{service.profile()?.business}}</h2><p>{{service.profile()?.name}} · {{service.profile()?.city}}</p><p>CNPJ: {{service.profile()?.cnpj}} · CRDD: {{service.profile()?.crdd}}</p><p>{{service.profile()?.email}} · {{service.profile()?.phone}}</p></div><div><span class="status">PARCEIRO ATIVO</span><button class="outline" (click)="service.logout()">SAIR</button></div></section>
-  <section class="grid"><div class="metric">VENDAS CONFIRMADAS<strong>{{count|number}}</strong></div><div class="metric">FATURAMENTO<strong>{{revenue|currency:'BRL'}}</strong></div><div class="metric">COMISSÕES REGISTRADAS<strong>{{commission|currency:'BRL'}}</strong></div></section>
-  <section class="panel"><h2>MINHAS VENDAS</h2><p class="muted">As vendas aparecerão automaticamente após a futura integração do checkout.</p><div class="scroll"><table><thead><tr><th>Curso</th><th>Valor</th><th>Comissão</th><th>Status</th></tr></thead><tbody>@for(s of service.sales();track s.id){<tr><td>{{courseName(s.courseId)}}</td><td>{{s.amount|currency:'BRL'}}</td><td>{{s.commissionAmount|currency:'BRL'}}</td><td>{{s.status}}</td></tr>}</tbody></table></div>@if(!service.sales().length){<p class="empty">Nenhuma venda registrada ainda.</p>}<button class="outline" (click)="refresh()">ATUALIZAR</button></section>
- }
- @if(service.error()){<p class="error">{{service.error()}}</p>}
+@if (service.loading()) {
+<main class="auth-page">
+    <section class="auth-card">
+        <div class="eyebrow">SEXTA MARCHA</div>
+        <h1>Preparando seu acesso...</h1>
+        <p>Aguarde enquanto verificamos suas credenciais.</p>
+    </section>
 </main>
+}
+
+@else if (!service.user()) {
+<main class="auth-page">
+    <section class="auth-card">
+        <img class="auth-logo" src="images/logo-sexta-marcha.png" alt="Sexta Marcha" />
+
+        <div class="eyebrow">PORTAL COMERCIAL</div>
+        <h1>Bem-vindo de volta<span>.</span></h1>
+        <p>Acesse sua conta para gerenciar seus negócios.</p>
+
+        <form (ngSubmit)="login()">
+            <label>
+                E-MAIL
+                <input name="email" type="email" autocomplete="username" placeholder="seu@email.com" [(ngModel)]="email"
+                    required />
+            </label>
+
+            <label>
+                SENHA
+                <input name="password" type="password" autocomplete="current-password" placeholder="Sua senha"
+                    [(ngModel)]="password" required />
+            </label>
+
+            <button class="primary-button full" type="submit" [disabled]="busy()">
+                {{ busy() ? 'Entrando...' : 'Acessar plataforma →' }}
+            </button>
+        </form>
+
+        <button class="link-button" type="button" (click)="reset()">
+            Esqueci minha senha
+        </button>
+
+        <p class="auth-bottom">
+            Ainda não é parceiro?
+            <a routerLink="/cadastro-despachante">
+                Cadastre-se
+            </a>
+        </p>
+
+        @if (error()) {
+        <p class="feedback-error" role="alert">{{ error() }}</p>
+        }
+
+        @if (notice()) {
+        <p class="feedback-notice" role="status">{{ notice() }}</p>
+        }
+    </section>
+</main>
+}
+
+@else if (service.role() === "master") {
+<main class="auth-page">
+    <section class="auth-card">
+        <div class="eyebrow">ACESSO ADMINISTRATIVO</div>
+        <h1>Olá, administrador<span>.</span></h1>
+        <p>Sua conta possui permissão de gestão.</p>
+
+        <a class="primary-button full" routerLink="/master">
+            Abrir painel Master →
+        </a>
+
+        <button class="link-button" (click)="logout()">
+            Sair da conta
+        </button>
+    </section>
+</main>
+}
+
+@else if (service.role() !== "partner") {
+<main class="auth-page">
+    <section class="auth-card">
+        <div class="eyebrow">CADASTRO DE PARCEIRO</div>
+        <h1>Acesso em análise<span>.</span></h1>
+
+        <p>
+            Olá, {{ service.profile()?.name || service.user()?.email }}.
+            Seu cadastro precisa ser aprovado antes de liberar
+            as funcionalidades comerciais.
+        </p>
+
+        <div class="pending-status">
+            Status: {{ service.profile()?.status || 'Não localizado' }}
+        </div>
+
+        <button class="primary-button full" (click)="refresh()">
+            Atualizar situação
+        </button>
+
+        <button class="link-button" (click)="logout()">
+            Sair da conta
+        </button>
+    </section>
+</main>
+}
+
+@else {
+<app-dashboard-layout mode="partner" [active]="section()" [name]="service.profile()?.name || ''"
+    [business]="service.profile()?.business || ''" (sectionChange)="selectSection($event)" (logout)="logout()">
+
+    @if (section() === "overview") {
+
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">VISÃO GERAL</div>
+            <h1>Seu negócio em movimento<span>.</span></h1>
+            <p>
+                Acompanhe sua operação comercial em um só lugar.
+            </p>
+        </div>
+
+        <button class="secondary-button" (click)="refresh()">
+            Atualizar dados ↻
+        </button>
+    </div>
+
+    <section class="welcome-banner">
+        <div>
+            <span class="banner-label">PARCEIRO SEXTA MARCHA</span>
+            <h2>Olá, {{ service.profile()?.name }}!</h2>
+            <p>
+                Sua central de vendas está pronta.
+                Explore os cursos de trânsito disponíveis
+                e comece a ampliar suas oportunidades.
+            </p>
+            <button class="primary-button" (click)="selectSection('courses')">
+                Explorar cursos →
+            </button>
+        </div>
+        <div class="banner-decoration">6</div>
+    </section>
+
+    <section class="metrics">
+        <article class="metric-card">
+            <span>Vendas confirmadas</span>
+            <strong>{{ count | number }}</strong>
+            <small>Pagamentos confirmados</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Faturamento</span>
+            <strong>{{ revenue | currency:'BRL' }}</strong>
+            <small>Total das vendas pagas</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Comissões registradas</span>
+            <strong>{{ commission | currency:'BRL' }}</strong>
+            <small>Sobre vendas confirmadas</small>
+        </article>
+    </section>
+
+    <section class="dashboard-grid">
+        <article class="content-card">
+            <div class="card-header">
+                <div>
+                    <div class="eyebrow">OPERAÇÃO COMERCIAL</div>
+                    <h2>Comece por aqui</h2>
+                </div>
+            </div>
+
+            <div class="quick-action">
+                <div class="quick-icon">01</div>
+                <div>
+                    <strong>Conheça o catálogo</strong>
+                    <p>Veja os cursos que poderá oferecer.</p>
+                </div>
+                <button (click)="selectSection('courses')">→</button>
+            </div>
+
+            <div class="quick-action">
+                <div class="quick-icon">02</div>
+                <div>
+                    <strong>Inicie uma venda</strong>
+                    <p>Acesse o módulo comercial.</p>
+                </div>
+                <button (click)="selectSection('new-sale')">→</button>
+            </div>
+
+            <div class="quick-action">
+                <div class="quick-icon">03</div>
+                <div>
+                    <strong>Acompanhe resultados</strong>
+                    <p>Consulte suas vendas registradas.</p>
+                </div>
+                <button (click)="selectSection('sales')">→</button>
+            </div>
+        </article>
+
+        <article class="content-card">
+            <div class="eyebrow">MEU ESTABELECIMENTO</div>
+            <h2>{{ service.profile()?.business }}</h2>
+            <span class="active-pill">● Parceiro ativo</span>
+
+            <div class="business-details">
+                <div>
+                    <span>Responsável</span>
+                    <strong>{{ service.profile()?.name }}</strong>
+                </div>
+                <div>
+                    <span>Localização</span>
+                    <strong>{{ service.profile()?.city }}</strong>
+                </div>
+                <div>
+                    <span>CRDD</span>
+                    <strong>{{ service.profile()?.crdd }}</strong>
+                </div>
+            </div>
+
+            <button class="secondary-button full" (click)="selectSection('business')">
+                Ver meu cadastro
+            </button>
+        </article>
+    </section>
+    }
+
+    @if (section() === "courses") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">EDUCAÇÃO NO TRÂNSITO</div>
+            <h1>Catálogo de cursos<span>.</span></h1>
+            <p>Conheça as soluções de educação disponíveis.</p>
+        </div>
+    </div>
+
+    <section class="course-grid">
+        @for (course of catalog; track course.id) {
+        <article class="course-card">
+            <div class="course-top">
+                <span class="course-category">EDUCAÇÃO NO TRÂNSITO</span>
+                <span class="course-symbol">↗</span>
+            </div>
+
+            <h2>{{ course.title }}</h2>
+            <p>
+                Consulte as informações e condições deste curso
+                antes de oferecê-lo ao cliente.
+            </p>
+
+            <div class="course-bottom">
+                <span>Oferta comercial</span>
+                <button class="secondary-button" (click)="selectSection('new-sale')">
+                    Ver como vender →
+                </button>
+            </div>
+        </article>
+        } @empty {
+        <div class="content-card">
+            Nenhum curso cadastrado no catálogo.
+        </div>
+        }
+    </section>
+    }
+
+    @if (section() === "new-sale") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">OPERAÇÃO COMERCIAL</div>
+            <h1>Nova venda<span>.</span></h1>
+            <p>Seu espaço para iniciar uma venda de curso.</p>
+        </div>
+    </div>
+
+    <section class="content-card empty-module">
+        <div class="module-icon">＋</div>
+        <h2>Vamos conectar seu fluxo de vendas.</h2>
+        <p>
+            O catálogo já pode ser consultado.
+            A geração de indicações e a confirmação de
+            pagamentos serão habilitadas após a integração
+            comercial com a plataforma de cursos.
+        </p>
+        <button class="primary-button" (click)="selectSection('courses')">
+            Ver catálogo de cursos →
+        </button>
+    </section>
+    }
+
+    @if (section() === "customers") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">RELACIONAMENTO</div>
+            <h1>Meus clientes<span>.</span></h1>
+            <p>Acompanhe suas futuras indicações comerciais.</p>
+        </div>
+    </div>
+
+    <section class="content-card empty-module">
+        <div class="module-icon">♧</div>
+        <h2>Gestão de clientes</h2>
+        <p>
+            Este módulo será conectado aos clientes e
+            às indicações atribuídas ao seu estabelecimento.
+        </p>
+    </section>
+    }
+
+    @if (section() === "sales") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">HISTÓRICO COMERCIAL</div>
+            <h1>Minhas vendas<span>.</span></h1>
+            <p>Consulte as vendas registradas em sua conta.</p>
+        </div>
+
+        <button class="secondary-button" (click)="refresh()">
+            Atualizar ↻
+        </button>
+    </div>
+
+    <section class="content-card">
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Curso</th>
+                        <th>Valor</th>
+                        <th>Comissão</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (sale of service.sales(); track sale.id) {
+                    <tr>
+                        <td>{{ courseName(sale.courseId) }}</td>
+                        <td>{{ sale.amount | currency:'BRL' }}</td>
+                        <td>
+                            {{ sale.commissionAmount | currency:'BRL' }}
+                        </td>
+                        <td>
+                            <span class="table-status">{{ sale.status }}</span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!service.sales().length) {
+        <div class="table-empty">
+            Nenhuma venda registrada até o momento.
+        </div>
+        }
+    </section>
+    }
+
+    @if (section() === "commissions") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">FINANCEIRO</div>
+            <h1>Minhas comissões<span>.</span></h1>
+            <p>Acompanhe os valores registrados sobre vendas pagas.</p>
+        </div>
+    </div>
+
+    <section class="metrics">
+        <article class="metric-card">
+            <span>Comissões registradas</span>
+            <strong>{{ commission | currency:'BRL' }}</strong>
+            <small>Vendas com status paid</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Vendas confirmadas</span>
+            <strong>{{ count }}</strong>
+            <small>Base de cálculo atual</small>
+        </article>
+    </section>
+
+    <section class="content-card">
+        <h2>Detalhamento financeiro</h2>
+        <p class="muted">
+            Os valores acima representam comissões registradas
+            sobre vendas pagas. O controle de repasses e saques
+            será integrado em uma etapa posterior.
+        </p>
+    </section>
+    }
+
+    @if (section() === "business") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">MINHA CONTA</div>
+            <h1>Meu estabelecimento<span>.</span></h1>
+            <p>Informações do seu cadastro de parceiro.</p>
+        </div>
+    </div>
+
+    <section class="content-card">
+        <div class="details-grid">
+            <div>
+                <span>Estabelecimento</span>
+                <strong>{{ service.profile()?.business }}</strong>
+            </div>
+            <div>
+                <span>Responsável</span>
+                <strong>{{ service.profile()?.name }}</strong>
+            </div>
+            <div>
+                <span>CNPJ</span>
+                <strong>{{ service.profile()?.cnpj }}</strong>
+            </div>
+            <div>
+                <span>CRDD</span>
+                <strong>{{ service.profile()?.crdd }}</strong>
+            </div>
+            <div>
+                <span>E-mail</span>
+                <strong>{{ service.profile()?.email }}</strong>
+            </div>
+            <div>
+                <span>WhatsApp</span>
+                <strong>{{ service.profile()?.phone }}</strong>
+            </div>
+            <div>
+                <span>Cidade</span>
+                <strong>{{ service.profile()?.city }}</strong>
+            </div>
+            <div>
+                <span>Situação</span>
+                <strong>{{ service.profile()?.status }}</strong>
+            </div>
+        </div>
+    </section>
+    }
+
+    @if (error() || service.error()) {
+    <p class="feedback-error" role="alert">
+        {{ error() || service.error() }}
+    </p>
+    }
+
+</app-dashboard-layout>
+}

@@ -1,15 +1,18 @@
 /** Firebase Web SDK public identifiers (not service-account secrets). Replace with Firebase Console values. */
+
 export const environment = {
   production: false,
+
   firebase: {
-    apiKey: "REPLACE_ME",
-    authDomain: "REPLACE_ME",
-    projectId: "REPLACE_ME",
-    appId: "REPLACE_ME",
-    messagingSenderId: "REPLACE_ME",
-    storageBucket: "REPLACE_ME",
+    apiKey: "AIzaSyBYVTq-iC1Kfk-QEFWSOz9qBiiJFxSC7gU",
+    authDomain: "sexta-marcha-app.firebaseapp.com",
+    projectId: "sexta-marcha-app",
+    storageBucket: "sexta-marcha-app.firebasestorage.app",
+    messagingSenderId: "333663448803",
+    appId: "1:333663448803:web:4a3489ed39929c375e5fd6",
   },
-  appCheckSiteKey: "", // reCAPTCHA Enterprise site key. Configure before enabling lead submission.
-  contactEmail: "", // Fill with an approved company email to show the contact link.
-  contactWhatsApp: "", // E.164 digits, e.g. 5511999999999 (do not invent).
+
+  appCheckSiteKey: "6LezrxEuAAAAAEH_4heFD37LGwhcj3SbcMr5shkS",
+  contactEmail: "",
+  contactWhatsApp: "",
 };

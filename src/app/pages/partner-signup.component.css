@@ -1,12 +1,787 @@
-:host{display:block;background:#0b0b0b;color:#fff;min-height:85vh}
-    .wrap-signup{max-width:1100px;margin:auto;padding:110px 24px 90px;display:grid;grid-template-columns:1fr 1fr;gap:70px}
-    .ey{color:#f18a32;letter-spacing:.15em;font-size:12px;font-weight:800}
-    h1{font-size:clamp(40px,5vw,74px);line-height:1.02;margin:25px 0;font-weight:900}
-    h1 span{color:#f18a32}p{line-height:1.7;color:#aaa}.form{background:#171717;border:1px solid #343434;padding:32px;border-radius:14px}
-    label{display:block;font-size:12px;font-weight:700;letter-spacing:.05em;margin:17px 0 6px}
-    input{width:100%;box-sizing:border-box;padding:14px;background:#0d0d0d;border:1px solid #444;color:white;border-radius:5px;font:inherit}
-    input:focus{outline:1px solid #f18a32}.check{display:flex;gap:12px;align-items:flex-start;margin:22px 0}.check input{width:auto;margin-top:5px}
-    .check label{margin:0;font-size:12px;line-height:1.6;color:#bbb;font-weight:400}
-    button{width:100%;background:#ed7b23;color:#0b0b0b;border:0;padding:17px;font-weight:900;cursor:pointer;border-radius:5px}
-    button:disabled{opacity:.55;cursor:wait}.error{color:#ffb6a8}.success{color:#9ee2b2}a{color:#f18a32}
-    @media(max-width:760px){.wrap-signup{grid-template-columns:1fr;padding:90px 20px 60px;gap:20px}.form{padding:22px}}
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #090909;
+  color: #f6f6f6;
+  font-family: inherit;
+
+  --signup-orange: var(--brand-orange, #ff5a16);
+  --signup-orange-dark: #d7470e;
+  --signup-orange-border: #71331e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   ESTRUTURA GERAL
+========================================== */
+
+.signup-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 16% 23%, #22201c 0, transparent 42%), #090909;
+}
+
+.signup-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 115px;
+  height: 6px;
+  background: var(--signup-orange);
+  transform: skewX(-30deg);
+  transform-origin: left;
+}
+
+.signup-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 88px 24px 100px;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(480px, 0.97fr);
+  gap: clamp(36px, 4vw, 65px);
+  align-items: start;
+}
+
+/* ==========================================
+   APRESENTAÇÃO / COLUNA ESQUERDA
+========================================== */
+
+.intro {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 7px 0 12px;
+  isolation: isolate;
+}
+
+.intro-top,
+.benefits,
+.login-hint {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 83px;
+  width: max-content;
+  letter-spacing: -0.05em;
+  font-style: italic;
+  font-weight: 950;
+  line-height: 0.85;
+}
+
+.brand-six {
+  font-size: 64px;
+  color: #fff;
+}
+
+.brand-m {
+  font-size: 53px;
+  color: var(--signup-orange);
+  margin-left: -10px;
+}
+
+.brand-word {
+  font-size: 24px;
+  line-height: 0.84;
+  margin-left: 11px;
+  letter-spacing: -0.06em;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #dedede;
+  font-size: 12px;
+  letter-spacing: 0.11em;
+  font-weight: 800;
+}
+
+.slash {
+  display: inline-block;
+  width: 5px;
+  height: 21px;
+  background: var(--signup-orange);
+  transform: skewX(-21deg);
+}
+
+/* ==========================================
+   TÍTULOS E TEXTOS
+========================================== */
+
+h1 {
+  font-size: clamp(45px, 4.8vw, 78px);
+  line-height: 1.04;
+  letter-spacing: -0.065em;
+  font-weight: 950;
+  margin: 26px 0 23px;
+  white-space: nowrap;
+}
+
+h1 span {
+  color: var(--signup-orange);
+}
+
+.intro-copy {
+  max-width: 530px;
+  color: #bcbcbc;
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* ==========================================
+   BENEFÍCIOS / ÍCONES
+========================================== */
+
+.benefits {
+  max-width: 540px;
+  margin: 48px 0 30px;
+}
+
+.benefit {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  padding: 17px 0;
+  border-bottom: 1px solid #333;
+}
+
+.benefit:last-child {
+  border-bottom: 0;
+}
+
+.benefit-icon {
+  flex: 0 0 57px;
+  width: 57px;
+  height: 57px;
+  border: 1px solid var(--signup-orange-dark);
+  border-radius: 10px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--signup-orange);
+  background: linear-gradient(145deg, #28201a, #101010);
+}
+
+.benefit-icon svg {
+  width: 29px;
+  height: 29px;
+}
+
+.benefit h3 {
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  margin: 0 0 5px;
+  font-weight: 850;
+}
+
+.benefit p {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   LINK PARA O PORTAL
+========================================== */
+
+.login-hint {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #9c9c9c;
+}
+
+.login-hint a {
+  color: var(--signup-orange);
+  margin-left: 13px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--signup-orange-dark);
+  padding-bottom: 4px;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.login-hint a:hover {
+  color: #fff;
+}
+
+/* ==========================================
+   ELEMENTO DECORATIVO
+========================================== */
+
+.intro-decor {
+  position: absolute;
+  right: -30px;
+  bottom: 8px;
+  z-index: 0;
+  opacity: 0.035;
+  pointer-events: none;
+}
+
+.intro-decor span {
+  font-size: 390px;
+  font-weight: 900;
+  letter-spacing: -0.12em;
+}
+
+/* ==========================================
+   CARD DO FORMULÁRIO
+========================================== */
+
+.form-card {
+  border: 1px solid var(--signup-orange-border);
+  border-radius: 24px;
+  background: linear-gradient(140deg, #171717, #101010 62%);
+  box-shadow: 0 28px 75px #0007;
+  padding: clamp(24px, 3vw, 45px);
+}
+
+.form-heading {
+  margin-bottom: 28px;
+}
+
+.form-heading h2 {
+  font-size: clamp(26px, 2.5vw, 39px);
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+  font-weight: 900;
+  margin: 18px 0 10px;
+}
+
+.dot {
+  color: var(--signup-orange);
+}
+
+.form-heading p {
+  font-size: 13px;
+  color: #a4a4a4;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ==========================================
+   CAMPOS DO FORMULÁRIO
+========================================== */
+
+.field-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+  gap: 16px;
+}
+
+.field {
+  min-width: 0;
+  margin-bottom: 17px;
+}
+
+.field label {
+  display: block;
+  color: #eaeaea;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.045em;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.field label span,
+.consent-row label span {
+  color: var(--signup-orange);
+}
+
+.field input {
+  display: block;
+  width: 100%;
+  height: 49px;
+  padding: 0 14px;
+
+  border: 1px solid #4a4a4a;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+
+  font: inherit;
+  font-size: 13px;
+  outline: 0;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.field input::placeholder {
+  color: #898989;
+}
+
+.field input:hover {
+  border-color: #747474;
+}
+
+.field input:focus {
+  border-color: var(--signup-orange);
+  box-shadow: 0 0 0 3px rgb(255 90 22 / 13%);
+}
+
+/* ==========================================
+   CONSENTIMENTO
+========================================== */
+
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 6px 0 22px;
+}
+
+.consent-row input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  accent-color: var(--signup-orange);
+  margin: 2px 0 0;
+  cursor: pointer;
+}
+
+.consent-row label {
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+/* ==========================================
+   BOTÃO PRINCIPAL
+========================================== */
+
+.submit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 58px;
+
+  background: var(--signup-orange);
+  border: 0;
+  border-radius: 9px;
+  color: #0b0b0b;
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 950;
+  letter-spacing: 0.02em;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s,
+    filter 0.2s;
+}
+
+.submit-button:not(:disabled):hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.submit-button span {
+  font-size: 23px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   MENSAGENS DE FEEDBACK
+========================================== */
+
+.feedback {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 17px 0 0;
+}
+
+.error {
+  color: #ff9f92;
+}
+
+.success {
+  color: #a1e4b4;
+}
+
+/* ==========================================
+   RODAPÉ DO FORMULÁRIO
+========================================== */
+
+.form-footer {
+  border-top: 1px solid #303030;
+  margin-top: 27px;
+  padding-top: 18px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+
+  color: #777;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+}
+
+/* ==========================================
+   RESPONSIVIDADE / NOTEBOOK
+========================================== */
+
+@media (max-width: 1150px) {
+  .signup-shell {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(430px, 1fr);
+    gap: 30px;
+    padding: 65px 30px 75px;
+  }
+
+  h1 {
+    font-size: clamp(38px, 4.6vw, 58px);
+  }
+
+  .brand-mark {
+    margin-bottom: 64px;
+  }
+}
+
+/* ==========================================
+   RESPONSIVIDADE / TABLET
+========================================== */
+
+@media (max-width: 900px) {
+  .signup-shell {
+    grid-template-columns: 1fr;
+    max-width: 740px;
+    gap: 36px;
+    padding: 52px 22px 70px;
+  }
+
+  .intro {
+    min-height: auto;
+    gap: 25px;
+  }
+
+  .brand-mark {
+    margin-bottom: 50px;
+  }
+
+  .intro-copy {
+    max-width: 650px;
+  }
+
+  .benefits {
+    margin: 10px 0;
+  }
+
+  .intro-decor {
+    display: none;
+  }
+
+  .form-card {
+    padding: 30px;
+  }
+}
+
+/* ==========================================
+   RESPONSIVIDADE / CELULAR
+========================================== */
+
+@media (max-width: 560px) {
+  .signup-shell {
+    padding: 35px 16px 55px;
+    gap: 30px;
+  }
+
+  .brand-mark {
+    margin-bottom: 42px;
+  }
+
+  .brand-six {
+    font-size: 50px;
+  }
+
+  .brand-m {
+    font-size: 42px;
+  }
+
+  .brand-word {
+    font-size: 19px;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 9.1vw, 50px);
+    white-space: normal;
+  }
+
+  .intro-copy {
+    font-size: 14px;
+  }
+
+  .benefits {
+    margin: 2px 0;
+  }
+
+  .benefit-icon {
+    flex-basis: 50px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .form-card {
+    padding: 25px 18px;
+    border-radius: 17px;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  .form-heading h2 {
+    font-size: 29px;
+  }
+
+  .form-footer {
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .login-hint {
+    font-size: 10px;
+  }
+
+  .login-hint a {
+    margin-left: 6px;
+  }
+}
+
+/* ==========================================
+   ACESSIBILIDADE
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .field input,
+  .submit-button,
+  .login-hint a {
+    transition: none;
+  }
+}
+
+/* ==========================================
+   AJUSTE FINAL — FORMULÁRIO COMPACTO
+========================================== */
+
+@media (min-width: 901px) {
+  /* Aproxima as duas colunas */
+  .signup-shell {
+    gap: clamp(32px, 3.5vw, 54px);
+    align-items: start;
+  }
+
+  /* Compacta o card */
+  .form-card {
+    padding: 28px 34px 24px;
+    border-radius: 20px;
+  }
+
+  /* Cabeçalho */
+  .form-heading {
+    margin-bottom: 18px;
+  }
+
+  .form-heading h2 {
+    font-size: clamp(26px, 2.3vw, 34px);
+    margin: 12px 0 7px;
+  }
+
+  .form-heading p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* Campos mais próximos */
+  .field {
+    margin-bottom: 11px;
+  }
+
+  .field label {
+    font-size: 10px;
+    margin-bottom: 5px;
+  }
+
+  .field input {
+    height: 42px;
+    padding: 0 12px;
+    font-size: 12px;
+    border-radius: 7px;
+  }
+
+  .field-row {
+    gap: 13px;
+  }
+
+  /* Consentimento */
+  .consent-row {
+    gap: 10px;
+    margin: 3px 0 15px;
+  }
+
+  .consent-row label {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .consent-row input {
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+  }
+
+  /* Botão */
+  .submit-button {
+    min-height: 48px;
+    font-size: 13px;
+  }
+
+  /* Rodapé */
+  .form-footer {
+    margin-top: 17px;
+    padding-top: 12px;
+  }
+
+  /* Ajusta a distribuição da esquerda */
+  .intro {
+    min-height: 690px;
+  }
+
+  .benefits {
+    margin: 30px 0 20px;
+  }
+
+  .benefit {
+    padding: 13px 0;
+  }
+
+  .benefit-icon {
+    flex: 0 0 51px;
+    width: 51px;
+    height: 51px;
+  }
+
+  .benefit-icon svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* Notebook com altura de tela menor */
+@media (min-width: 901px) and (max-height: 850px) {
+  .signup-shell {
+    padding-top: 50px;
+    padding-bottom: 45px;
+  }
+
+  .form-card {
+    padding-top: 24px;
+    padding-bottom: 20px;
+  }
+
+  .field {
+    margin-bottom: 9px;
+  }
+
+  .field input {
+    height: 40px;
+  }
+
+  .intro {
+    min-height: 640px;
+  }
+}
+
+/* ==========================================
+   ESPAÇAMENTO DEFINITIVO DA NAVBAR
+========================================== */
+
+@media (min-width: 901px) {
+  .signup-shell {
+    padding-top: 90px !important;
+    padding-bottom: 60px;
+    align-items: start;
+  }
+
+  .intro,
+  .form-card {
+    margin-top: 0;
+  }
+
+  .intro {
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  .benefits {
+    margin: 28px 0 18px;
+  }
+
+  .benefit {
+    padding: 11px 0;
+  }
+
+  .login-hint {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .signup-shell {
+    padding-top: 95px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .signup-shell {
+    padding-top: 70px !important;
+  }
+}

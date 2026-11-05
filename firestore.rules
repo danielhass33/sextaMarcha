@@ -1,17 +1,110 @@
+
 rules_version = '2';
+
 service cloud.firestore {
- match /databases/{database}/documents {
-  function signedIn(){return request.auth != null;}
-  function profileExists(){return signedIn() && exists(/databases/$(database)/documents/partners/$(request.auth.uid));}
-  function currentProfile(){return get(/databases/$(database)/documents/partners/$(request.auth.uid)).data;}
-  function active(){return profileExists() && currentProfile().status == 'active';}
-  function master(){return active() && currentProfile().role == 'master';}
-  match /partners/{id}{allow read: if master() || (signedIn() && request.auth.uid == id); allow write: if false;}
-  match /sales/{id}{allow read: if master() || (active() && resource.data.partnerId == request.auth.uid);allow write: if false;}
-  match /courses/{id}{allow read: if true;allow write: if false;}
-  match /students/{id}{allow read,write: if false;}
-  match /commissions/{id}{allow read,write: if false;}
-  match /payouts/{id}{allow read,write: if false;}
-  match /{document=**}{allow read,write: if false;}
- }
+  match /databases/{database}/documents {
+
+    // =====================================
+    // FUNÇÕES DE AUTENTICAÇÃO
+    // =====================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function profileExists() {
+      return signedIn() &&
+        exists(
+          /databases/$(database)/documents/partners/$(request.auth.uid)
+        );
+    }
+
+    function currentProfile() {
+      return get(
+        /databases/$(database)/documents/partners/$(request.auth.uid)
+      ).data;
+    }
+
+    function active() {
+      return profileExists() &&
+        currentProfile().status == 'active';
+    }
+
+    function master() {
+      return active() &&
+        currentProfile().role == 'master';
+    }
+
+    // =====================================
+    // DESPACHANTES E MASTER
+    // =====================================
+
+    match /partners/{id} {
+
+      allow read: if master() ||
+        (signedIn() && request.auth.uid == id);
+
+      // Alterações somente pelo backend
+      allow write: if false;
+    }
+
+    // =====================================
+    // VENDAS
+    // =====================================
+
+    match /sales/{id} {
+
+      allow read: if master() ||
+        (
+          active() &&
+          resource.data.partnerId == request.auth.uid
+        );
+
+      // Vendas criadas e gerenciadas pelo backend
+      allow write: if false;
+    }
+
+    // =====================================
+    // CATÁLOGO DE CURSOS
+    // =====================================
+
+    match /courses/{id} {
+
+      allow read: if true;
+
+      allow write: if false;
+    }
+
+    // =====================================
+    // ALUNOS
+    // =====================================
+
+    match /students/{id} {
+      allow read, write: if false;
+    }
+
+    // =====================================
+    // COMISSÕES
+    // =====================================
+
+    match /commissions/{id} {
+      allow read, write: if false;
+    }
+
+    // =====================================
+    // REPASSES
+    // =====================================
+
+    match /payouts/{id} {
+      allow read, write: if false;
+    }
+
+    // =====================================
+    // BLOQUEIO PADRÃO
+    // =====================================
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
 }

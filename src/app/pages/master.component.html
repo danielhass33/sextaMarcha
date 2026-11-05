@@ -1,15 +1,342 @@
-<main class="master">
- <div class="top"><div><div class="ey">SEXTA MARCHA / ADMINISTRAÇÃO</div><h1>PAINEL <span>MASTER.</span></h1><p>Visão centralizada de parceiros e desempenho comercial.</p></div><div><a routerLink="/portal" class="outline">PORTAL</a><button class="outline" (click)="service.logout()">SAIR</button></div></div>
- @if(service.loading()){<section class="panel">Verificando credenciais...</section>}
- @else if(service.role()!=='master'){<section class="panel"><h2>ACESSO RESTRITO</h2><p>Esta área é exclusiva de administradores master ativos.</p><a routerLink="/portal">Voltar ao portal</a></section>}
- @else {
- <section class="metrics"><div class="metric">DESPACHANTES CADASTRADOS<strong>{{service.partners().length|number}}</strong></div><div class="metric">PARCEIROS ATIVOS<strong>{{activeCount|number}}</strong></div><div class="metric">VENDAS CONFIRMADAS<strong>{{paid.length|number}}</strong></div><div class="metric">FATURAMENTO<strong>{{revenue|currency:'BRL'}}</strong></div><div class="metric">COMISSÕES<strong>{{commission|currency:'BRL'}}</strong></div></section>
- <section class="panel"><div class="heading"><div><div class="ey">GESTÃO DE PARCEIROS</div><h2>DESPACHANTES</h2></div><button class="outline" [disabled]="busy()" (click)="reload()">ATUALIZAR ↻</button></div>
- <div class="filters"><input aria-label="Buscar parceiros" placeholder="Buscar por nome, CNPJ, CRDD ou e-mail" [value]="filter()" (input)="filter.set($any($event.target).value)"><select aria-label="Filtrar status" [value]="status()" (change)="status.set($any($event.target).value)"><option value="all">Todos</option><option value="pending">Pendentes</option><option value="active">Ativos</option><option value="suspended">Suspensos</option></select></div>
- <div class="scroll"><table><thead><tr><th>Estabelecimento</th><th>Responsável</th><th>CNPJ / CRDD</th><th>Status</th><th>Vendas</th><th>Faturamento</th><th>Ação</th></tr></thead><tbody>@for(p of partners;track p.uid){<tr><td><b>{{p.business}}</b><small>{{p.email}}</small></td><td>{{p.name}}<small>{{p.city}}</small></td><td>{{p.cnpj}}<small>CRDD: {{p.crdd}}</small></td><td><span class="pill">{{p.status}}</span></td><td>{{count(p.uid)}}</td><td>{{total(p.uid)|currency:'BRL'}}</td><td>@if(p.role!=='master'){@if(p.status!=='active'){<button class="small" [disabled]="busy()" (click)="changeStatus(p,'active')">APROVAR</button>}@else{<button class="small outline" [disabled]="busy()" (click)="changeStatus(p,'suspended')">SUSPENDER</button>}}</td></tr>}</tbody></table></div>
- @if(!partners.length){<p class="muted">Nenhum parceiro corresponde aos filtros.</p>}
- </section>
- <section class="panel"><div class="ey">OPERAÇÃO COMERCIAL</div><h2>VENDAS REGISTRADAS</h2><p class="muted">Dados reais do Firestore. O módulo de checkout ainda não está disponível.</p><div class="scroll"><table><thead><tr><th>Despachante</th><th>Curso</th><th>Valor</th><th>Comissão</th><th>Status</th></tr></thead><tbody>@for(s of service.sales();track s.id){<tr><td>{{partnerName(s.partnerId)}}</td><td>{{courseName(s.courseId)}}</td><td>{{s.amount|currency:'BRL'}}</td><td>{{s.commissionAmount|currency:'BRL'}}</td><td>{{s.status}}</td></tr>}</tbody></table></div>@if(!service.sales().length){<p class="muted">Nenhuma venda registrada.</p>}</section>
- @if(error()){<p class="error" role="alert">{{error()}}</p>}
- }
+@if (service.loading()) {
+<main class="access-page">
+    <section class="access-card">
+        <h1>Verificando credenciais...</h1>
+        <p>Estamos preparando seu ambiente administrativo.</p>
+    </section>
 </main>
+}
+
+@else if (service.role() !== "master") {
+<main class="access-page">
+    <section class="access-card">
+        <div class="eyebrow">ACESSO RESTRITO</div>
+        <h1>Área administrativa.</h1>
+        <p>
+            Este ambiente é exclusivo de administradores
+            Master ativos da Sexta Marcha.
+        </p>
+        <a routerLink="/portal" class="primary-button">
+            Voltar ao portal →
+        </a>
+    </section>
+</main>
+}
+
+@else {
+<app-dashboard-layout mode="master" [active]="section()" [name]="service.profile()?.name || 'Administrador'"
+    business="Sexta Marcha" (sectionChange)="selectSection($event)" (logout)="logout()">
+
+    @if (section() === "overview") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">ADMINISTRAÇÃO GERAL</div>
+            <h1>Visão geral<span>.</span></h1>
+            <p>
+                Acompanhe a rede de parceiros e os resultados
+                comerciais da plataforma.
+            </p>
+        </div>
+        <button class="secondary-button" [disabled]="busy()" (click)="reload()">
+            {{ busy() ? 'Atualizando...' : 'Atualizar ↻' }}
+        </button>
+    </div>
+
+    <section class="metrics">
+        <article class="metric-card">
+            <span>Despachantes cadastrados</span>
+            <strong>{{ partnerProfiles.length | number }}</strong>
+            <small>Total de parceiros</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Parceiros ativos</span>
+            <strong>{{ activeCount | number }}</strong>
+            <small>Habilitados para operar</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Aguardando aprovação</span>
+            <strong>{{ pendingCount | number }}</strong>
+            <small>Cadastros pendentes</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Faturamento confirmado</span>
+            <strong>{{ revenue | currency:'BRL' }}</strong>
+            <small>Vendas com status paid</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Comissões registradas</span>
+            <strong>{{ commission | currency:'BRL' }}</strong>
+            <small>Sobre vendas confirmadas</small>
+        </article>
+    </section>
+
+    <section class="master-columns">
+        <article class="content-card">
+            <div class="eyebrow">GESTÃO DE PARCEIROS</div>
+            <h2>Cadastros pendentes</h2>
+
+            @for (p of partnerProfiles; track p.uid) {
+            @if (p.status === "pending") {
+            <div class="pending-partner">
+                <div>
+                    <strong>{{ p.business }}</strong>
+                    <small>{{ p.name }} · {{ p.city }}</small>
+                </div>
+                <button class="primary-button" [disabled]="busy()" (click)="changeStatus(p, 'active')">
+                    Aprovar
+                </button>
+            </div>
+            }
+            }
+
+            @if (!pendingCount) {
+            <div class="empty-message">
+                Nenhum cadastro aguardando aprovação.
+            </div>
+            }
+
+            <button class="secondary-button full" (click)="selectSection('partners')">
+                Gerenciar despachantes →
+            </button>
+        </article>
+
+        <article class="content-card dark-card">
+            <div class="eyebrow">OPERAÇÃO COMERCIAL</div>
+            <h2>Gestão centralizada</h2>
+            <p>
+                Consulte os cursos, acompanhe as vendas e
+                administre a evolução da rede comercial.
+            </p>
+
+            <button class="primary-button" (click)="selectSection('sales')">
+                Ver vendas →
+            </button>
+        </article>
+    </section>
+    }
+
+    @if (section() === "partners") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">GESTÃO COMERCIAL</div>
+            <h1>Despachantes<span>.</span></h1>
+            <p>
+                Gerencie os cadastros e as permissões dos parceiros.
+            </p>
+        </div>
+
+        <button class="secondary-button" [disabled]="busy()" (click)="reload()">
+            Atualizar ↻
+        </button>
+    </div>
+
+    <section class="content-card">
+        <div class="filters">
+            <input aria-label="Buscar parceiros" placeholder="Buscar por nome, CNPJ, CRDD ou e-mail" [value]="filter()"
+                (input)="filter.set($any($event.target).value)" />
+
+            <select aria-label="Filtrar status" [value]="status()" (change)="status.set($any($event.target).value)">
+                <option value="all">Todos os status</option>
+                <option value="pending">Pendentes</option>
+                <option value="active">Ativos</option>
+                <option value="suspended">Suspensos</option>
+            </select>
+        </div>
+
+        <div class="table-scroll">
+            <table class="partners-table">
+                <thead>
+                    <tr>
+                        <th>Estabelecimento</th>
+                        <th>Responsável</th>
+                        <th>CNPJ / CRDD</th>
+                        <th>Status</th>
+                        <th>Vendas</th>
+                        <th>Faturamento</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (p of partners; track p.uid) {
+                    @if (p.role !== "master") {
+                    <tr>
+                        <td>
+                            <strong>{{ p.business }}</strong>
+                            <small>{{ p.email }}</small>
+                        </td>
+
+                        <td>
+                            {{ p.name }}
+                            <small>{{ p.city }}</small>
+                        </td>
+
+                        <td>
+                            {{ p.cnpj }}
+                            <small>CRDD: {{ p.crdd }}</small>
+                        </td>
+
+                        <td>
+                            <span class="status-pill" [class.is-active]="p.status === 'active'"
+                                [class.is-pending]="p.status === 'pending'">
+                                {{ p.status }}
+                            </span>
+                        </td>
+
+                        <td>{{ count(p.uid) }}</td>
+                        <td>{{ total(p.uid) | currency:'BRL' }}</td>
+
+                        <td>
+                            @if (p.status !== "active") {
+                            <button class="small-button approve" [disabled]="busy()"
+                                (click)="changeStatus(p, 'active')">
+                                Aprovar
+                            </button>
+                            } @else {
+                            <button class="small-button suspend" [disabled]="busy()"
+                                (click)="changeStatus(p, 'suspended')">
+                                Suspender
+                            </button>
+                            }
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!partners.length) {
+        <div class="empty-message">
+            Nenhum parceiro corresponde aos filtros.
+        </div>
+        }
+    </section>
+    }
+
+    @if (section() === "courses") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">PRODUTOS</div>
+            <h1>Catálogo de cursos<span>.</span></h1>
+            <p>
+                Visualize os cursos cadastrados na aplicação.
+            </p>
+        </div>
+    </div>
+
+    <section class="course-grid">
+        @for (course of catalog; track course.id) {
+        <article class="content-card">
+            <div class="eyebrow">EDUCAÇÃO NO TRÂNSITO</div>
+            <h2>{{ course.title }}</h2>
+            <p class="muted">
+                Curso disponível no catálogo local da plataforma.
+            </p>
+            <div class="course-id">ID: {{ course.id }}</div>
+        </article>
+        } @empty {
+        <div class="content-card">
+            Nenhum curso encontrado.
+        </div>
+        }
+    </section>
+    }
+
+    @if (section() === "sales") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">OPERAÇÃO COMERCIAL</div>
+            <h1>Vendas registradas<span>.</span></h1>
+            <p>Histórico de vendas armazenadas no Firestore.</p>
+        </div>
+        <button class="secondary-button" (click)="reload()">
+            Atualizar ↻
+        </button>
+    </div>
+
+    <section class="content-card">
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Despachante</th>
+                        <th>Curso</th>
+                        <th>Valor</th>
+                        <th>Comissão</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (s of service.sales(); track s.id) {
+                    <tr>
+                        <td>{{ partnerName(s.partnerId) }}</td>
+                        <td>{{ courseName(s.courseId) }}</td>
+                        <td>{{ s.amount | currency:'BRL' }}</td>
+                        <td>
+                            {{ s.commissionAmount | currency:'BRL' }}
+                        </td>
+                        <td>
+                            <span class="status-pill">{{ s.status }}</span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!service.sales().length) {
+        <div class="empty-message">
+            Nenhuma venda registrada até o momento.
+        </div>
+        }
+    </section>
+    }
+
+    @if (section() === "commissions") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">FINANCEIRO</div>
+            <h1>Comissões<span>.</span></h1>
+            <p>
+                Visão consolidada das comissões registradas.
+            </p>
+        </div>
+    </div>
+
+    <section class="metrics">
+        <article class="metric-card">
+            <span>Comissões registradas</span>
+            <strong>{{ commission | currency:'BRL' }}</strong>
+            <small>Vendas pagas</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Vendas confirmadas</span>
+            <strong>{{ paid.length | number }}</strong>
+            <small>Transações com status paid</small>
+        </article>
+    </section>
+
+    <section class="content-card">
+        <h2>Controle financeiro</h2>
+        <p class="muted">
+            A conciliação de repasses, comissões liquidadas
+            e pagamentos aos parceiros será implementada
+            após a integração de checkout.
+        </p>
+    </section>
+    }
+
+    @if (error() || service.error()) {
+    <p class="feedback-error" role="alert">
+        {{ error() || service.error() }}
+    </p>
+    }
+
+</app-dashboard-layout>
+}
