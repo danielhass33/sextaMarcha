@@ -1,32 +1,38 @@
 <main class="wrap-signup">
-      <section>
-        <div class="ey">SEXTA MARCHA / SEJA PARCEIRO</div>
-        <h1>SEU NEGÓCIO.<br><span>NOVA MARCHA.</span></h1>
-        <p>Crie seu acesso ao portal do despachante. Depois da análise do cadastro, seu estabelecimento poderá comercializar os cursos disponíveis, acompanhar cada venda e consultar as comissões com fechamento semanal.</p>
-        <p>Já possui cadastro? <a routerLink="/portal">Acessar portal ↗</a></p>
-      </section>
-      <section class="form">
-        <div class="ey">CADASTRO DE PARCEIRO</div>
-        <h2>CRIAR MEU ACESSO</h2>
-        <form (ngSubmit)="register()">
-          <label for="partner-name">NOME COMPLETO *</label>
-          <input id="partner-name" name="name" [(ngModel)]="name" autocomplete="name" minlength="3" maxlength="120" required>
-          <label for="partner-business">NOME DO ESTABELECIMENTO *</label>
-          <input id="partner-business" name="business" [(ngModel)]="business" maxlength="120" required>
-          <label for="partner-phone">WHATSAPP COM DDD *</label>
-          <input id="partner-phone" name="phone" [(ngModel)]="phone" autocomplete="tel" type="tel" required>
-          <label for="partner-city">CIDADE / UF *</label>
-          <input id="partner-city" name="city" [(ngModel)]="city" maxlength="120" required>
-          <label for="partner-email">E-MAIL DE ACESSO *</label>
-          <input id="partner-email" name="email" [(ngModel)]="email" autocomplete="email" type="email" required>
-          <label for="partner-password">SENHA (MÍNIMO 12 CARACTERES) *</label>
-          <input id="partner-password" name="password" [(ngModel)]="password" autocomplete="new-password" type="password" minlength="12" required>
-          <label for="partner-confirm">CONFIRMAR SENHA *</label>
-          <input id="partner-confirm" name="confirm" [(ngModel)]="confirm" autocomplete="new-password" type="password" required>
-          <div class="check"><input id="partner-consent" name="consent" [(ngModel)]="consent" type="checkbox" required><label for="partner-consent">Concordo com o tratamento dos meus dados para análise do cadastro e operação da plataforma, conforme a política de privacidade aplicável. *</label></div>
-          <button type="submit" [disabled]="busy()">{{ busy() ? 'CRIANDO ACESSO...' : 'CRIAR CONTA ↗' }}</button>
-          @if(error()){<p class="error" role="alert">{{error()}}</p>}
-          @if(success()){<p class="success" role="status">{{success()}}</p>}
-        </form>
-      </section>
-    </main>
+  <section>
+    <div class="ey">SEXTA MARCHA / SEJA PARCEIRO</div>
+    <h1>SEU NEGÓCIO.<br><span>NOVA MARCHA.</span></h1>
+    <p>Crie seu acesso ao portal do despachante. Depois da análise do cadastro, seu estabelecimento poderá comercializar
+      os cursos disponíveis, acompanhar cada venda e consultar as comissões com fechamento semanal.</p>
+    <p>Já possui cadastro? <a routerLink="/portal">Acessar portal ↗</a></p>
+  </section>
+  <section class="form">
+    <div class="ey">CADASTRO DE PARCEIRO</div>
+    <h2>CRIAR MEU ACESSO</h2>
+    <form (ngSubmit)="register()">
+      <label for="partner-name">NOME COMPLETO *</label>
+      <input id="partner-name" name="name" [(ngModel)]="name" autocomplete="name" minlength="3" maxlength="120"
+        required>
+      <label for="partner-business">NOME DO ESTABELECIMENTO *</label>
+      <input id="partner-business" name="business" [(ngModel)]="business" maxlength="120" required>
+      <label for="partner-phone">WHATSAPP COM DDD *</label>
+      <input id="partner-phone" name="phone" [(ngModel)]="phone" autocomplete="tel" type="tel" required>
+      <label for="partner-city">CIDADE / UF *</label>
+      <input id="partner-city" name="city" [(ngModel)]="city" maxlength="120" required>
+      <label for="partner-email">E-MAIL DE ACESSO *</label>
+      <input id="partner-email" name="email" [(ngModel)]="email" autocomplete="email" type="email" required>
+      <label for="partner-password">SENHA (MÍNIMO 12 CARACTERES) *</label>
+      <input id="partner-password" name="password" [(ngModel)]="password" autocomplete="new-password" type="password"
+        minlength="12" required>
+      <label for="partner-confirm">CONFIRMAR SENHA *</label>
+      <input id="partner-confirm" name="confirm" [(ngModel)]="confirm" autocomplete="new-password" type="password"
+        required>
+      <div class="check"><input id="partner-consent" name="consent" [(ngModel)]="consent" type="checkbox"
+          required><label for="partner-consent">Concordo com o tratamento dos meus dados para análise do cadastro e
+          operação da plataforma, conforme a política de privacidade aplicável. *</label></div>
+      <button type="submit" [disabled]="busy()">{{ busy() ? 'CRIANDO ACESSO...' : 'CRIAR CONTA ↗' }}</button>
+      @if(error()){<p class="error" role="alert">{{error()}}</p>}
+      @if(success()){<p class="success" role="status">{{success()}}</p>}
+    </form>
+  </section>
+</main>
