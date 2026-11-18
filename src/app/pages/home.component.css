@@ -16,7 +16,7 @@
 .sm-landing-hero-photo {
   position: absolute;
   inset: 0;
-  background: url("/images/hero-placeholder.jpg") center/cover no-repeat;
+  background: url("../../../public/images/hero-placeholder.jpg") center/cover no-repeat;
   opacity: 0.37;
 }
 .sm-landing-hero-shade {

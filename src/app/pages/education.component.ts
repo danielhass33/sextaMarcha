@@ -26,6 +26,6 @@ export class EducationComponent {
   // Substitua os arquivos abaixo por fotografias reais na pasta public/images/courses/.
   // Enquanto não houver foto, o fundo escuro do card permanece visível.
   imageFor(id: string): string {
-    return `images/courses/${id}.jpg`;
+    return `images/courses/${id}.webp`;
   }
 }

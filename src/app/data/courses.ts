@@ -12,7 +12,7 @@ export interface Course {
   offers: string[];
 }
 
-const img = (name: string) => `/images/courses/${name}.webp`;
+const img = (name: string) => `images/courses/${name}.webp`;
 
 export const courses: Course[] = [
   {
