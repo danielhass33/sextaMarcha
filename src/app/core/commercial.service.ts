@@ -39,6 +39,8 @@ export interface Sale {
   amount: number;
   commissionAmount: number;
   status: string;
+  simulated?: boolean;
+  environment?: "sandbox" | "production";
   createdAt?: unknown;
 }
 @Injectable({ providedIn: "root" })

@@ -47,7 +47,9 @@ export class AppComponent {
       path === "/portal" ||
         path.startsWith("/portal/") ||
         path === "/master" ||
-        path.startsWith("/master/"),
+        path.startsWith("/master/") ||
+        path === "/comprar" ||
+        path.startsWith("/comprar/"),
     );
   }
 }

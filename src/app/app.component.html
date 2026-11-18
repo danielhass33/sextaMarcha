@@ -14,33 +14,12 @@
   </div>
 
   <nav id="nav-menu" class="nav-dropdown" [class.open]="menuOpen()" aria-label="Menu principal">
-    <a routerLink="/educacao-no-transito" (click)="menuOpen.set(false)">
-      Educação no Trânsito
-    </a>
-
-    <a routerLink="/portal" (click)="menuOpen.set(false)">
-      Portal do despachante
-    </a>
-
-    <a routerLink="/cadastro-despachante" (click)="menuOpen.set(false)">
-      Seja parceiro
-    </a>
-
-    <a routerLink="/" fragment="sobre" (click)="menuOpen.set(false)">
-      Sobre
-    </a>
-
-    <a routerLink="/" fragment="solucoes" (click)="menuOpen.set(false)">
-      Soluções
-    </a>
-
-    <a routerLink="/" fragment="cadastro" (click)="menuOpen.set(false)">
-      Cadastro
-    </a>
-
-    <a routerLink="/" fragment="contato" (click)="menuOpen.set(false)">
-      Contato
-    </a>
+    <a routerLink="/" fragment="como-funciona" (click)="menuOpen.set(false)">Como funciona</a>
+    <a routerLink="/" fragment="cursos" (click)="menuOpen.set(false)">Cursos de trânsito</a>
+    <a routerLink="/" fragment="portal" (click)="menuOpen.set(false)">Conheça o portal</a>
+    <a routerLink="/" fragment="duvidas" (click)="menuOpen.set(false)">Dúvidas frequentes</a>
+    <a routerLink="/portal" (click)="menuOpen.set(false)">Entrar no portal</a>
+    <a routerLink="/cadastro-despachante" (click)="menuOpen.set(false)">Quero ser parceiro ↗</a>
   </nav>
 </header>
 }

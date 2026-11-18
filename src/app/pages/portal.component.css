@@ -1,6 +1,6 @@
 :host {
   display: block;
-  --orange: var(--brand-orange, #f47721);
+  --orange: var(--brand-orange, #ff3b0a);
   color: #20242a;
 }
 
@@ -565,4 +565,1047 @@ th {
   .auth-card {
     padding: 28px 22px;
   }
+}
+
+.enrollment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.enrollment-form h2 {
+  margin: -12px 0 0;
+}
+
+.enrollment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.enrollment-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.enrollment-grid input,
+.enrollment-grid select {
+  width: 100%;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  background: #fff;
+  color: #161616;
+  font: inherit;
+  outline: none;
+}
+
+.enrollment-grid input:focus,
+.enrollment-grid select:focus {
+  border-color: var(--brand-orange, #ff3b0a);
+}
+
+.full-field {
+  grid-column: 1 / -1;
+}
+
+.consent-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.consent-field input {
+  margin-top: 4px;
+}
+
+@media (max-width: 680px) {
+  .enrollment-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   SEXTA MARCHA
+   CATÁLOGO + JORNADA COMERCIAL
+   ========================================================== */
+
+:host {
+  --sm-orange: var(--brand-orange, #ff3b0a);
+  --sm-ink: #20242a;
+  --sm-muted: #818995;
+  --sm-line: #e7e9ed;
+  --sm-surface: #ffffff;
+  --sm-soft: #f6f7f8;
+}
+
+/* TÍTULOS E BOTÕES */
+
+.page-heading {
+  flex-wrap: wrap;
+}
+
+.page-heading > div {
+  min-width: 0;
+}
+
+.primary-button,
+.secondary-button {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.primary-button:not(:disabled):hover {
+  background: #e66d1b;
+  filter: none;
+}
+
+.secondary-button:not(:disabled):hover {
+  background: #fff8f2;
+}
+
+/* ==========================================================
+   BANNER DO CATÁLOGO
+   ========================================================== */
+
+.sm-catalog-intro {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  min-height: 260px;
+  padding: clamp(26px, 4vw, 46px);
+  margin-bottom: 26px;
+  border-radius: 16px;
+  background: #1a1d22;
+  color: #ffffff;
+}
+
+.sm-catalog-intro > div {
+  position: relative;
+  z-index: 2;
+  max-width: 590px;
+}
+
+.sm-overline {
+  display: block;
+  margin-bottom: 15px;
+  color: var(--sm-orange);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.sm-catalog-intro h2 {
+  max-width: 550px;
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: clamp(27px, 3vw, 39px);
+  font-weight: 900;
+  line-height: 1.14;
+  letter-spacing: -0.045em;
+}
+
+.sm-catalog-intro p {
+  max-width: 450px;
+  margin: 0 0 24px;
+  color: #aeb4bd;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.sm-catalog-number {
+  position: absolute;
+  right: 35px;
+  top: -70px;
+  color: rgba(255, 255, 255, 0.035);
+  font-size: 340px;
+  font-weight: 950;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ==========================================================
+   BUSCA E FILTROS
+   ========================================================== */
+
+.sm-catalog-tools {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 0 0 24px;
+}
+
+.sm-search {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: min(100%, 340px);
+  min-width: 0;
+}
+
+.sm-search span {
+  color: #737c88;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.sm-search input {
+  width: 100%;
+  height: 45px;
+  padding: 0 15px;
+  border: 1px solid var(--sm-line);
+  border-radius: 9px;
+  outline: none;
+  background: #ffffff;
+  color: var(--sm-ink);
+  font: inherit;
+  font-size: 13px;
+  transition: border-color 0.2s ease;
+}
+
+.sm-search input:focus {
+  border-color: var(--sm-orange);
+}
+
+.sm-search input::placeholder {
+  color: #a1a8b2;
+}
+
+.sm-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.sm-filter {
+  min-height: 37px;
+  padding: 8px 13px;
+  border: 1px solid var(--sm-line);
+  border-radius: 7px;
+  background: #ffffff;
+  color: #69717d;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sm-filter:hover {
+  border-color: var(--sm-orange);
+  color: var(--sm-ink);
+}
+
+.sm-filter.is-active {
+  border-color: #20242a;
+  background: #20242a;
+  color: #ffffff;
+}
+
+/* ==========================================================
+   GRID DE CURSOS
+   ========================================================== */
+
+.sm-course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 18px;
+}
+
+.sm-course-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--sm-line);
+  border-radius: 13px;
+  background: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sm-course-card:hover {
+  transform: translateY(-2px);
+  border-color: #d3d7dc;
+}
+
+.sm-course-image {
+  position: relative;
+  height: 175px;
+  overflow: hidden;
+  background: #eef0f2;
+}
+
+.sm-course-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.sm-course-card:hover .sm-course-image img {
+  transform: scale(1.025);
+}
+
+.sm-course-image::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.22));
+  pointer-events: none;
+}
+
+.sm-course-image-label {
+  position: absolute;
+  z-index: 1;
+  bottom: 13px;
+  left: 14px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #272b31;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sm-course-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0;
+  padding: 22px;
+}
+
+.sm-course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 13px;
+  color: var(--sm-orange);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.sm-course-content h2 {
+  margin: 0 0 11px;
+  color: var(--sm-ink);
+  font-size: 19px;
+  font-weight: 850;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+}
+
+.sm-course-content > p {
+  margin: 0 0 20px;
+  color: #818995;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.sm-course-audience {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding: 16px 0;
+  border-top: 1px solid #edf0f2;
+}
+
+.sm-course-audience strong {
+  color: #9ba2ab;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.sm-course-audience span {
+  color: #515963;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.sm-course-content > .secondary-button {
+  margin-top: 8px;
+}
+
+/* ==========================================================
+   GUIA E TIMELINE DE VENDAS
+   ========================================================== */
+
+.sm-guide,
+.sm-course-detail,
+.sm-review,
+.sm-success {
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.sm-guide > h2,
+.sm-review > h2,
+.sm-success > h2 {
+  margin: 0 0 12px;
+  color: var(--sm-ink);
+  font-size: clamp(23px, 2.5vw, 30px);
+  font-weight: 850;
+  letter-spacing: -0.045em;
+}
+
+.sm-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 27px 20px;
+  margin: 32px 0;
+}
+
+.sm-timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  min-width: 0;
+}
+
+.sm-timeline-marker {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: #fff1e7;
+  color: var(--sm-orange);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.sm-timeline-item > div:last-child {
+  min-width: 0;
+}
+
+.sm-timeline-item h3 {
+  margin: 1px 0 7px;
+  color: #292f37;
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.4;
+}
+
+.sm-timeline-item p {
+  margin: 0;
+  color: #89919d;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.sm-guide-notice {
+  padding: 17px 19px;
+  margin: 24px 0;
+  border: 1px solid #e8eaee;
+  border-radius: 9px;
+  background: #f8f9fa;
+  color: #707985;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+/* ==========================================================
+   DETALHES DO CURSO
+   ========================================================== */
+
+.sm-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 30px;
+  align-items: start;
+  margin: 23px 0 30px;
+}
+
+.sm-detail-image {
+  height: 280px;
+  overflow: hidden;
+  border-radius: 11px;
+  background: #eef0f2;
+}
+
+.sm-detail-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sm-detail-category {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--sm-orange);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sm-detail-layout h2 {
+  margin: 0 0 15px;
+  color: var(--sm-ink);
+  font-size: clamp(23px, 2.5vw, 31px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.sm-detail-layout p {
+  margin: 0 0 13px;
+  color: #737c88;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.sm-detail-layout p strong {
+  color: #30353d;
+}
+
+.sm-detail-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  padding: 25px 0;
+  border-top: 1px solid #edf0f2;
+}
+
+.sm-detail-columns h3 {
+  margin: 0 0 14px;
+  color: #292f37;
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.sm-detail-columns ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.sm-detail-columns li {
+  padding-left: 4px;
+  margin-bottom: 9px;
+  color: #78818c;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.sm-detail-columns li::marker {
+  color: var(--sm-orange);
+}
+
+.sm-offer-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 23px;
+  border: 1px solid #e7e9ed;
+  border-radius: 11px;
+  background: #fafbfc;
+}
+
+.sm-offer-box > div {
+  min-width: 0;
+}
+
+.sm-offer-box h3 {
+  margin: 0 0 8px;
+  color: #2a2e35;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+.sm-offer-box p {
+  margin: 8px 0 0;
+}
+
+.sm-offer-price {
+  display: block;
+  color: #20242a;
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+}
+
+/* ==========================================================
+   ETAPAS DE CADASTRO E REVISÃO
+   ========================================================== */
+
+.sm-step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.sm-step-header > span {
+  color: var(--sm-orange);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.enrollment-form {
+  gap: 21px;
+  margin-top: 0;
+}
+
+.enrollment-form .eyebrow:not(:first-child) {
+  padding-top: 22px;
+  border-top: 1px solid #edf0f2;
+}
+
+.enrollment-form h2 {
+  margin: -10px 0 2px;
+  color: #2b3037;
+  font-size: 19px;
+  font-weight: 850;
+}
+
+.enrollment-grid {
+  gap: 17px;
+}
+
+.enrollment-grid label {
+  gap: 8px;
+  color: #59616d;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.enrollment-grid input,
+.enrollment-grid select {
+  min-height: 45px;
+  padding: 11px 13px;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #252a31;
+  font-size: 13px;
+  transition: border-color 0.2s ease;
+}
+
+.enrollment-grid input:focus,
+.enrollment-grid select:focus {
+  border-color: var(--sm-orange);
+  box-shadow: 0 0 0 3px rgba(244, 119, 33, 0.08);
+}
+
+.consent-field {
+  padding: 16px;
+  border: 1px solid #e8eaee;
+  border-radius: 8px;
+  background: #fafbfc;
+  color: #68717e;
+  font-size: 12px;
+}
+
+.consent-field input {
+  accent-color: var(--sm-orange);
+}
+
+.sm-review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 26px;
+  margin: 26px 0;
+}
+
+.sm-review-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.sm-review-grid span {
+  color: #929aa5;
+  font-size: 11px;
+}
+
+.sm-review-grid strong {
+  color: #2b3037;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.sm-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 23px;
+}
+
+/* ==========================================================
+   CONFIRMAÇÃO
+   ========================================================== */
+
+.sm-success {
+  text-align: center;
+}
+
+.sm-success-icon {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 22px;
+  border-radius: 14px;
+  background: #e8f7ee;
+  color: #248b4d;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.sm-success > p {
+  color: #7d8590;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.sm-success .sm-actions {
+  justify-content: center;
+  margin-top: 28px;
+}
+
+/* ==========================================================
+   RESPONSIVIDADE
+   ========================================================== */
+
+@media (max-width: 1200px) {
+  .sm-course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sm-timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .sm-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .sm-detail-image {
+    height: 260px;
+  }
+
+  .sm-offer-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 680px) {
+  .sm-catalog-intro {
+    min-height: 245px;
+    padding: 28px 23px;
+  }
+
+  .sm-catalog-intro h2 {
+    font-size: 28px;
+  }
+
+  .sm-catalog-number {
+    right: -12px;
+    top: 0;
+    font-size: 245px;
+  }
+
+  .sm-catalog-tools {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sm-search {
+    width: 100%;
+  }
+
+  .sm-filter-list {
+    gap: 6px;
+  }
+
+  .sm-filter {
+    font-size: 10px;
+  }
+
+  .sm-course-grid,
+  .sm-timeline,
+  .sm-detail-columns,
+  .sm-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sm-course-image {
+    height: 195px;
+  }
+
+  .sm-course-content {
+    padding: 20px;
+  }
+
+  .sm-detail-image {
+    height: 220px;
+  }
+
+  .sm-detail-columns {
+    gap: 24px;
+  }
+
+  .sm-guide,
+  .sm-course-detail,
+  .sm-review,
+  .sm-success {
+    padding: 21px;
+  }
+
+  .sm-actions {
+    flex-direction: column;
+  }
+
+  .sm-actions > button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-course-card,
+  .sm-course-image img,
+  .sm-filter,
+  .primary-button,
+  .secondary-button {
+    transition: none;
+  }
+}
+
+/* Link para o aluno */
+.sm-checkout-share {
+  margin: 24px auto;
+  padding: 22px;
+  border: 1px solid #e6e8ed;
+  border-radius: 12px;
+  background: #fafafa;
+  max-width: 680px;
+  text-align: left;
+}
+.sm-checkout-share label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.sm-checkout-share input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d9dde3;
+  border-radius: 8px;
+  background: white;
+  color: #25272b;
+}
+.sm-checkout-share .sm-actions {
+  justify-content: flex-start;
+}
+
+/* SEXTA MARCHA — experiência comercial guiada */
+.sm-howto-strip,
+.sm-visual-journey {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 24px 0;
+}
+.sm-howto-strip > div,
+.sm-visual-journey > div {
+  background: #fff;
+  border: 1px solid #e5e7ea;
+  border-radius: 12px;
+  padding: 19px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sm-howto-strip span {
+  color: #ff3b0a;
+  font-weight: 900;
+  font-size: 20px;
+}
+.sm-howto-strip strong,
+.sm-visual-journey strong {
+  font-size: 13px;
+}
+.sm-howto-strip small,
+.sm-visual-journey small {
+  color: #757c85;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.sm-sandbox-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 25px 0 12px;
+}
+.sm-sandbox-title span {
+  font-size: 12px;
+  color: #737b86;
+}
+.sm-four-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+.sm-info-callout {
+  background: #fff5ec;
+  border: 1px solid #ffd9b9;
+  border-left: 4px solid #ff3b0a;
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0;
+}
+.sm-info-callout strong {
+  font-size: 17px;
+}
+.sm-info-callout p {
+  font-size: 14px;
+  color: #65594f;
+  line-height: 1.7;
+  max-width: 950px;
+}
+.sm-visual-journey {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.sm-visual-journey > div {
+  align-items: center;
+  text-align: center;
+}
+.sm-step-icon {
+  font-size: 35px;
+  line-height: 1.6;
+}
+.sm-client-grid {
+  display: grid;
+  gap: 12px;
+}
+.sm-client-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid #e6e8ec;
+  border-radius: 12px;
+  padding: 18px;
+}
+.sm-client-avatar {
+  background: #202329;
+  color: #ff3b0a;
+  width: 50px;
+  height: 50px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 900;
+}
+.sm-client-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.sm-client-details small {
+  color: #737a85;
+  overflow-wrap: anywhere;
+}
+.sm-state {
+  font-size: 11px;
+  font-weight: 800;
+  color: #b65b1d;
+}
+.sm-state-paid {
+  color: #18764a;
+}
+.sm-empty-friendly {
+  text-align: center;
+  padding: 55px 18px;
+}
+.sm-empty-friendly span {
+  font-size: 52px;
+}
+.sm-empty-friendly p {
+  max-width: 480px;
+  margin: 15px auto 22px;
+  color: #6d737c;
+}
+@media (max-width: 1050px) {
+  .sm-four-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .sm-visual-journey {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .sm-howto-strip,
+  .sm-four-metrics,
+  .sm-visual-journey {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .sm-client-card {
+    flex-wrap: wrap;
+  }
+  .sm-client-card button {
+    width: 100%;
+  }
+  .sm-sandbox-title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+/* Ícones da jornada comercial */
+.journey-step svg {
+  display: block;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 22px;
+  color: #ff3b0a;
 }

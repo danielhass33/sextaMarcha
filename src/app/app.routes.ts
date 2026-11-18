@@ -28,6 +28,16 @@ export const routes: Routes = [
       import("./pages/portal.component").then((m) => m.PortalComponent),
   },
   {
+    path: "portal/:section",
+    title: "Portal do Despachante | Sexta Marcha",
+    loadComponent: () => import("./pages/portal.component").then(m => m.PortalComponent),
+  },
+  {
+    path: "comprar/:token",
+    title: "Finalizar inscrição | Sexta Marcha",
+    loadComponent: () => import("./pages/checkout.component").then(m => m.CheckoutComponent),
+  },
+  {
     path: "solucoes/:slug",
     title: "Soluções | Sexta Marcha",
     loadComponent: () =>

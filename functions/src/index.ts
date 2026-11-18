@@ -1,10 +1,16 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { initializeApp } from "firebase-admin/app";
+import { getApps, initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
-initializeApp();
+
+if (!getApps().length) {
+  initializeApp();
+}
+
 const db = getFirestore();
+
 const asText = (v: unknown, max: number) =>
   typeof v === "string" ? v.trim().slice(0, max) : "";
+
 export const submitLead = onCall(
   { region: "southamerica-east1", enforceAppCheck: true, maxInstances: 5 },
   async (request) => {
@@ -37,20 +43,18 @@ export const submitLead = onCall(
         "Confira os dados e o consentimento.",
       );
     }
-    await db
-      .collection("leads")
-      .add({
-        name,
-        phone,
-        email,
-        profession,
-        city,
-        interest,
-        consent: true,
-        consentVersion: "2026-10",
-        createdAt: FieldValue.serverTimestamp(),
-        source: "landing-sexta-marcha",
-      });
+    await db.collection("leads").add({
+      name,
+      phone,
+      email,
+      profession,
+      city,
+      interest,
+      consent: true,
+      consentVersion: "2026-10",
+      createdAt: FieldValue.serverTimestamp(),
+      source: "landing-sexta-marcha",
+    });
     return { ok: true };
   },
 );
@@ -174,3 +178,9 @@ export const setPartnerStatus = onCall(
     return { ok: true, status };
   },
 );
+
+export { createTestCourseOrder, listCourseOrders } from "./course-orders";
+export { simulateCoursePayment } from "./payment-simulator";
+export { listCourseOffers } from "./course-catalog";
+export {getPublicCheckout, confirmSandboxCheckout} from "./checkout";
+export {renewCheckoutLink} from "./course-orders";

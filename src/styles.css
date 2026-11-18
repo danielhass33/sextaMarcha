@@ -1,10 +1,10 @@
 :root {
-  --orange: #ff5c0a;
+  --orange: #ff3b0a;
   --ink: #0b0b0d;
   --white: #f5f4f1;
   --gray: #aaa;
   --brand-orange: #ff3b0a;
-  --brand-orange-dark: #d7470e;
+  --brand-orange-dark: #ff3b0a;
   --brand-orange-border: #71331e;
 }
 
@@ -424,7 +424,7 @@ h1 em {
 
 .card-art span {
   font: 900 140px/0.8 "Barlow Condensed";
-  color: #ff5c0a;
+  color: #ff3b0a;
 }
 
 .card-art i {
@@ -433,7 +433,7 @@ h1 em {
   background: repeating-linear-gradient(
     120deg,
     transparent 0 28px,
-    #ff5c0a20 30px 31px,
+    #ff3b0a20 30px 31px,
     transparent 32px 60px
   );
 }

@@ -1,1 +1,538 @@
-/* Estilos específicos deste componente. */
+:host {
+  display: block;
+}
+.sm-home {
+  overflow: hidden;
+  color: #1d2025;
+}
+.sm-landing-hero {
+  min-height: 700px;
+  position: relative;
+  background: #121417;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+.sm-landing-hero-photo {
+  position: absolute;
+  inset: 0;
+  background: url("/images/hero-placeholder.jpg") center/cover no-repeat;
+  opacity: 0.37;
+}
+.sm-landing-hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #111317 0%,
+    rgba(17, 19, 23, 0.95) 35%,
+    rgba(17, 19, 23, 0.28) 100%
+  );
+}
+.sm-landing-hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 110px 0 100px;
+  width: 100%;
+}
+.sm-landing-eyebrow,
+.sm-landing-heading > span {
+  color: #ff3b0a;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  font-weight: 800;
+}
+.sm-landing-hero h1,
+.sm-landing-section h2,
+.sm-landing-final h2 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(54px, 7vw, 112px);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  margin: 24px 0;
+}
+.sm-landing-hero h1 em,
+.sm-landing-section h2 em,
+.sm-landing-final h2 em {
+  color: #ff3b0a;
+  font-style: normal;
+}
+.sm-landing-hero p {
+  max-width: 610px;
+  color: #d1d3d5;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.sm-landing-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 32px 0;
+}
+.sm-landing-btn,
+.sm-landing-outline {
+  min-height: 54px;
+  padding: 17px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.055em;
+}
+.sm-landing-btn {
+  background: #ff3b0a;
+  color: #111;
+}
+.sm-landing-outline {
+  border: 1px solid #767a80;
+  color: inherit;
+}
+.sm-landing-btn:hover {
+  background: #ff3b0a;
+}
+.sm-landing-hero-note {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #c2c4c7;
+}
+.sm-landing-proof {
+  background: #ff3b0a;
+}
+.sm-landing-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 24px 0;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+.sm-landing-section {
+  padding: 110px 0;
+}
+.sm-landing-heading {
+  max-width: 880px;
+  margin-bottom: 42px;
+}
+.sm-landing-section h2 {
+  font-size: clamp(45px, 5.3vw, 76px);
+  margin: 18px 0;
+}
+.sm-landing-heading p,
+.sm-landing-portal p {
+  color: #6d7279;
+  line-height: 1.75;
+  font-size: 17px;
+  max-width: 620px;
+}
+.sm-landing-steps {
+  background: #f5f5f3;
+}
+.sm-landing-step-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.sm-landing-step-grid article {
+  background: #fff;
+  border: 1px solid #e6e6e4;
+  padding: 24px;
+  min-height: 280px;
+}
+.sm-landing-step-visual {
+  height: 105px;
+  font-size: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sm-landing-step-visual span {
+  font-size: 14px;
+  color: #ff3b0a;
+  font-weight: 900;
+}
+.sm-landing-step-grid h3 {
+  font-size: 19px;
+  margin: 12px 0;
+}
+.sm-landing-step-grid p,
+.sm-landing-course-grid p {
+  color: #707780;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.sm-landing-course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.sm-landing-course-grid article {
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  overflow: hidden;
+}
+.sm-landing-course-grid img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+.sm-landing-course-grid article > div {
+  padding: 24px;
+}
+.sm-landing-course-grid small {
+  font-size: 10px;
+  color: #ff3b0a;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+}
+.sm-landing-course-grid h3 {
+  font-size: 23px;
+  margin: 13px 0;
+}
+.sm-landing-text-link {
+  display: inline-block;
+  margin-top: 30px;
+  color: #ff3b0a;
+  font-weight: 900;
+  font-size: 13px;
+  text-decoration: none;
+}
+.sm-landing-portal {
+  background: #1b1d21;
+  color: #fff;
+}
+.sm-landing-portal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 55px;
+  align-items: center;
+}
+.sm-landing-portal p {
+  color: #c6c8cc;
+}
+.sm-landing-dashboard {
+  background: #fff;
+  color: #24262b;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 25px 65px #0006;
+  transform: rotate(1deg);
+}
+.sm-dash-top,
+.sm-dash-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.sm-dash-top {
+  font-size: 12px;
+}
+.sm-dash-top b {
+  color: #ff3b0a;
+}
+.sm-dash-top span {
+  font-size: 10px;
+  color: #8b8f95;
+}
+.sm-dash-title {
+  font-weight: 800;
+  font-size: 22px;
+  margin: 38px 0 20px;
+}
+.sm-dash-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+.sm-dash-cards div {
+  background: #f4f5f6;
+  padding: 17px 10px;
+}
+.sm-dash-cards small {
+  display: block;
+  color: #80858d;
+  font-size: 9px;
+}
+.sm-dash-cards strong {
+  font-size: 23px;
+}
+.sm-dash-line {
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+  font-size: 12px;
+}
+.sm-dash-line b {
+  color: #ff3b0a;
+  font-size: 10px;
+}
+.sm-dash-disclaimer {
+  display: block;
+  color: #92969d;
+  font-size: 9px;
+  margin-top: 20px;
+}
+.sm-landing-faq {
+  background: #f6f6f5;
+}
+.sm-landing-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.sm-landing-faq details {
+  background: #fff;
+  padding: 24px;
+  border: 1px solid #e6e6e6;
+}
+.sm-landing-faq summary {
+  font-weight: 800;
+  cursor: pointer;
+}
+.sm-landing-faq details p {
+  color: #6d7279;
+  line-height: 1.6;
+}
+.sm-landing-final {
+  background: #ff3b0a;
+  color: #17191d;
+  padding: 105px 0;
+}
+.sm-landing-final h2 {
+  font-size: clamp(46px, 6vw, 90px);
+}
+.sm-landing-final h2 em {
+  color: #fff;
+}
+.sm-landing-final p {
+  font-size: 18px;
+  max-width: 630px;
+}
+.sm-landing-final .sm-landing-btn {
+  background: #17191d;
+  color: #fff;
+}
+.sm-landing-final .sm-landing-outline {
+  border-color: #1d2025;
+}
+.sm-landing-final small {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+@media (max-width: 900px) {
+  .sm-landing-step-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sm-landing-portal-grid {
+    grid-template-columns: 1fr;
+  }
+  .sm-landing-proof-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sm-landing-course-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .sm-landing-hero {
+    min-height: 640px;
+  }
+  .sm-landing-hero-content {
+    padding: 90px 0;
+  }
+  .sm-landing-hero p {
+    font-size: 15px;
+  }
+  .sm-landing-section {
+    padding: 70px 0;
+  }
+  .sm-landing-step-grid,
+  .sm-landing-course-grid,
+  .sm-landing-faq-grid {
+    grid-template-columns: 1fr;
+  }
+  .sm-landing-proof-grid {
+    gap: 12px;
+    font-size: 9px;
+  }
+  .sm-landing-course-grid img {
+    height: 200px;
+  }
+  .sm-landing-dashboard {
+    padding: 18px;
+    transform: none;
+  }
+  .sm-dash-cards strong {
+    font-size: 17px;
+  }
+  .sm-landing-actions a {
+    width: 100%;
+  }
+}
+/* Alinhamento do hero com o container institucional da navbar */
+.sm-landing-hero-content.wrap {
+  width: min(1200px, calc(100% - 64px));
+  margin-inline: auto;
+}
+.sm-landing-hero h1 {
+  font-size: clamp(48px, 6.15vw, 94px);
+  max-width: 1040px;
+  overflow-wrap: normal;
+}
+.sm-landing-hero-photo {
+  background-position: center right;
+}
+.sm-landing-step-visual {
+  color: #ff3b0a;
+}
+.sm-landing-step-visual svg {
+  display: block;
+  width: 56px;
+  height: 56px;
+  stroke: #ff3b0a;
+}
+.sm-landing-step-grid article {
+  border-radius: 14px;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+.sm-landing-step-grid article:hover {
+  transform: translateY(-3px);
+  border-color: #ff3b0a;
+}
+.sm-landing-btn:hover {
+  filter: brightness(0.93);
+}
+/* Catálogo público: mesma fonte de dados, imagens e anatomia do portal */
+.sm-landing-course-grid {
+  gap: 18px;
+}
+.sm-home-course-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid #e6e8eb;
+  border-radius: 13px;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+.sm-home-course-card:hover {
+  transform: translateY(-2px);
+  border-color: #d3d7dc;
+}
+.sm-home-course-image {
+  position: relative;
+  height: 175px;
+  overflow: hidden;
+  background: #eef0f2;
+}
+.sm-home-course-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.sm-home-course-card:hover img {
+  transform: scale(1.025);
+}
+.sm-home-course-category {
+  position: absolute;
+  bottom: 13px;
+  left: 14px;
+  background: #fff;
+  color: #272b31;
+  border-radius: 5px;
+  padding: 7px 10px;
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sm-home-course-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 22px;
+}
+.sm-home-course-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 13px;
+  color: #ff3b0a;
+  font-size: 11px;
+  font-weight: 800;
+}
+.sm-home-course-content h3 {
+  font-size: 20px;
+  font-weight: 850;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  margin: 0 0 11px;
+  color: #1d2025;
+}
+.sm-home-course-content > p {
+  font-size: 13px;
+  color: #818995;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+.sm-home-course-audience {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: auto;
+  padding: 16px 0;
+  border-top: 1px solid #edf0f2;
+}
+.sm-home-course-audience strong {
+  font-size: 10px;
+  color: #9ba2ab;
+  letter-spacing: 0.04em;
+}
+.sm-home-course-audience span {
+  font-size: 13px;
+  color: #525a65;
+  line-height: 1.5;
+}
+.sm-home-course-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  min-height: 49px;
+  border: 1px solid #e2e5e9;
+  border-radius: 10px;
+  color: #252b33;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.sm-home-course-action:hover {
+  border-color: #ff3b0a;
+  color: #ff3b0a;
+}
+@media (max-width: 600px) {
+  .sm-landing-hero-content.wrap {
+    width: calc(100% - 36px);
+  }
+  .sm-landing-hero h1 {
+    font-size: clamp(44px, 11vw, 65px);
+  }
+  .sm-landing-step-visual svg {
+    width: 48px;
+    height: 48px;
+  }
+}

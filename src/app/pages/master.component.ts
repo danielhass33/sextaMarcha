@@ -7,7 +7,7 @@ import {
   DashboardLayoutComponent,
   DashboardSection,
 } from "../layouts/dashboard/dashboard-layout.component";
-
+import { CourseOrdersService } from "../core/course-orders.service";
 @Component({
   standalone: true,
   imports: [CurrencyPipe, DecimalPipe, RouterLink, DashboardLayoutComponent],
@@ -25,10 +25,59 @@ export class MasterComponent {
 
   readonly catalog = courses;
 
-  selectSection(section: DashboardSection) {
-    this.section.set(section);
+  readonly courseOrders = inject(CourseOrdersService);
+
+  readonly paymentBusy = signal<string | null>(null);
+  readonly paymentNotice = signal("");
+
+  async confirmTestPayment(orderId: string) {
+    if (this.paymentBusy()) return;
+
+    const confirmed = confirm(
+      "Confirmar pagamento FICTÍCIO deste pedido? " +
+        "Serão criados registros simulados de venda, " +
+        "comissão e matrícula. Nenhum dinheiro será movimentado.",
+    );
+
+    if (!confirmed) return;
+
+    this.paymentBusy.set(orderId);
+    this.paymentNotice.set("");
+    this.error.set("");
+
+    try {
+      const result = await this.courseOrders.simulatePayment(orderId);
+
+      await this.service.refresh();
+
+      this.paymentNotice.set(
+        result.alreadyProcessed
+          ? "Este pagamento já havia sido simulado."
+          : "Pagamento simulado e registros financeiros criados.",
+      );
+    } catch (e) {
+      console.error(e);
+      this.error.set("Não foi possível confirmar o pagamento simulado.");
+    } finally {
+      this.paymentBusy.set(null);
+    }
   }
 
+  async refreshCourseOrders() {
+    try {
+      await this.courseOrders.refresh();
+    } catch {
+      this.error.set("Não foi possível carregar os pedidos.");
+    }
+  }
+
+  selectSection(section: DashboardSection) {
+    this.section.set(section);
+
+    if (section === "sales") {
+      void this.refreshCourseOrders();
+    }
+  }
   get partners() {
     return this.service
       .partners()
@@ -54,7 +103,14 @@ export class MasterComponent {
   }
 
   get paid() {
-    return this.service.sales().filter((s) => s.status === "paid");
+    return this.service
+      .sales()
+      .filter(
+        (sale) =>
+          sale.status === "paid" &&
+          sale.simulated !== true &&
+          sale.environment !== "sandbox",
+      );
   }
 
   get revenue() {
@@ -134,5 +190,31 @@ export class MasterComponent {
 
   logout() {
     this.service.logout();
+  }
+
+  get simulatedSales() {
+    return this.service
+      .sales()
+      .filter(
+        (sale) => sale.simulated === true || sale.environment === "sandbox",
+      );
+  }
+
+  get simulatedCommission() {
+    return this.simulatedSales.reduce(
+      (total, sale) => total + (Number(sale.commissionAmount) || 0),
+      0,
+    );
+  }
+
+  get simulatedRevenue() {
+    return this.simulatedSales.reduce(
+      (total, sale) => total + (Number(sale.amount) || 0),
+      0,
+    );
+  }
+
+  get simulatedCount() {
+    return this.simulatedSales.length;
   }
 }

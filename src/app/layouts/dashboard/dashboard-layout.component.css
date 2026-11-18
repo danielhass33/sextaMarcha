@@ -1,6 +1,6 @@
 :host {
   display: block;
-  --system-orange: var(--brand-orange, #f47721);
+  --system-orange: var(--brand-orange, #ff3b0a);
   --system-bg: #f5f6f8;
   --system-text: #1b2028;
   --system-muted: #7c8490;

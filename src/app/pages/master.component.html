@@ -64,7 +64,7 @@
         <article class="metric-card">
             <span>Faturamento confirmado</span>
             <strong>{{ revenue | currency:'BRL' }}</strong>
-            <small>Vendas com status paid</small>
+            <small>Somente pagamentos reais confirmados</small>
         </article>
 
         <article class="metric-card">
@@ -252,14 +252,21 @@
         <div>
             <div class="eyebrow">OPERAÇÃO COMERCIAL</div>
             <h1>Vendas registradas<span>.</span></h1>
-            <p>Histórico de vendas armazenadas no Firestore.</p>
+            <p>Gerencie os pedidos, acompanhe os pagamentos e valide a homologação.</p>
         </div>
-        <button class="secondary-button" (click)="reload()">
+        <button class="secondary-button" [disabled]="busy()" (click)="reload(); refreshCourseOrders()">
             Atualizar ↻
         </button>
     </div>
 
     <section class="content-card">
+        <div class="card-header">
+            <div>
+                <div class="eyebrow">HISTÓRICO FINANCEIRO</div>
+                <h2>Vendas registradas</h2>
+                <p class="muted">Pagamentos simulados não compõem o faturamento real.</p>
+            </div>
+        </div>
         <div class="table-scroll">
             <table>
                 <thead>
@@ -277,11 +284,158 @@
                         <td>{{ partnerName(s.partnerId) }}</td>
                         <td>{{ courseName(s.courseId) }}</td>
                         <td>{{ s.amount | currency:'BRL' }}</td>
+                        <td>{{ s.commissionAmount | currency:'BRL' }}</td>
                         <td>
-                            {{ s.commissionAmount | currency:'BRL' }}
+                            @if (s.simulated || s.environment === 'sandbox') {
+                            <span class="status-pill is-pending">Teste · pagamento simulado</span>
+                            } @else {
+                            <span class="status-pill" [class.is-active]="s.status === 'paid'">{{ s.status }}</span>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (!service.sales().length) {
+        <div class="empty-message">Nenhum pagamento registrado até o momento.</div>
+        }
+    </section>
+
+    <section class="content-card">
+        <div class="card-header">
+            <div>
+                <div class="eyebrow">PEDIDOS DE HOMOLOGAÇÃO</div>
+                <h2>Fluxo de matrículas</h2>
+                <p class="muted">Simule o pagamento de pedidos pendentes e acompanhe a matrícula.</p>
+            </div>
+            <button class="secondary-button" (click)="refreshCourseOrders()">Atualizar pedidos</button>
+        </div>
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Despachante</th>
+                        <th>Curso</th>
+                        <th>Valor</th>
+                        <th>Pagamento</th>
+                        <th>Matrícula</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (order of courseOrders.orders(); track order.id) {
+                    <tr>
+                        <td>{{ order.id.slice(0, 12) }}</td>
+                        <td>{{ partnerName(order.partnerId) }}</td>
+                        <td>{{ order.courseTitle }}</td>
+                        <td>{{ order.amountCents / 100 | currency:'BRL' }}</td>
+                        <td>
+                            @if (order.environment === 'sandbox' && order.paymentStatus === 'paid') {
+                            <span class="status-pill is-active">Pago (simulado)</span>
+                            } @else {
+                            <span class="status-pill">{{ order.paymentStatus }}</span>
+                            }
+                        </td>
+                        <td>{{ order.enrollmentStatus }}</td>
+                        <td>
+                            @if (order.paymentStatus === 'paid' && order.environment === 'sandbox') {
+                              <span class="status-pill is-active">Teste confirmado pelo cliente</span>
+                            } @else {
+                              <span class="status-pill">Aguardando cliente</span>
+                            }
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="7">Nenhum pedido de homologação encontrado.</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (paymentNotice()) {
+        <p class="feedback-notice" role="status">{{ paymentNotice() }}</p>
+        }
+    </section>
+    }
+
+
+    @if (section() === "commissions") {
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">FINANCEIRO</div>
+            <h1>Comissões<span>.</span></h1>
+            <p>Controle financeiro das comissões da rede comercial.</p>
+        </div>
+
+        <button class="secondary-button" [disabled]="busy()" (click)="reload()">
+            Atualizar ↻
+        </button>
+    </div>
+
+    <section class="metrics">
+        <article class="metric-card">
+            <span>Comissões reais</span>
+            <strong>{{ commission | currency:'BRL' }}</strong>
+            <small>Vendas reais confirmadas</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Comissões simuladas</span>
+            <strong>
+                {{ simulatedCommission | currency:'BRL' }}
+            </strong>
+            <small>Homologação financeira</small>
+        </article>
+
+        <article class="metric-card">
+            <span>Vendas simuladas</span>
+            <strong>{{ simulatedCount | number }}</strong>
+            <small>Operações fictícias confirmadas</small>
+        </article>
+    </section>
+
+    <section class="content-card">
+        <div class="eyebrow">COMISSÕES DOS DESPACHANTES</div>
+        <h2>Detalhamento financeiro</h2>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Despachante</th>
+                        <th>Curso</th>
+                        <th>Valor da venda</th>
+                        <th>Comissão</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (sale of simulatedSales; track sale.id) {
+                    <tr>
+                        <td>{{ partnerName(sale.partnerId) }}</td>
+                        <td>{{ courseName(sale.courseId) }}</td>
+                        <td>
+                            {{ sale.amount | currency:'BRL' }}
                         </td>
                         <td>
-                            <span class="status-pill">{{ s.status }}</span>
+                            <strong>
+                                {{ sale.commissionAmount | currency:'BRL' }}
+                            </strong>
+                        </td>
+                        <td>
+                            <span class="status-pill is-pending">
+                                Homologação
+                            </span>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="5">
+                            Nenhuma comissão simulada registrada.
                         </td>
                     </tr>
                     }
@@ -289,48 +443,13 @@
             </table>
         </div>
 
-        @if (!service.sales().length) {
-        <div class="empty-message">
-            Nenhuma venda registrada até o momento.
-        </div>
-        }
-    </section>
-    }
-
-    @if (section() === "commissions") {
-    <div class="page-heading">
-        <div>
-            <div class="eyebrow">FINANCEIRO</div>
-            <h1>Comissões<span>.</span></h1>
-            <p>
-                Visão consolidada das comissões registradas.
-            </p>
-        </div>
-    </div>
-
-    <section class="metrics">
-        <article class="metric-card">
-            <span>Comissões registradas</span>
-            <strong>{{ commission | currency:'BRL' }}</strong>
-            <small>Vendas pagas</small>
-        </article>
-
-        <article class="metric-card">
-            <span>Vendas confirmadas</span>
-            <strong>{{ paid.length | number }}</strong>
-            <small>Transações com status paid</small>
-        </article>
-    </section>
-
-    <section class="content-card">
-        <h2>Controle financeiro</h2>
         <p class="muted">
-            A conciliação de repasses, comissões liquidadas
-            e pagamentos aos parceiros será implementada
-            após a integração de checkout.
+            As comissões simuladas não geram obrigações
+            financeiras ou repasses bancários.
         </p>
     </section>
     }
+
 
     @if (error() || service.error()) {
     <p class="feedback-error" role="alert">

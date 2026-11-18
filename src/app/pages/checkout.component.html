@@ -1,0 +1,94 @@
+<div class="checkout-shell">
+  <header class="checkout-header">
+    <a routerLink="/" class="checkout-brand" aria-label="Sexta Marcha">
+      <img src="/images/logo-sexta-marcha.png" alt="Sexta Marcha" />
+    </a>
+
+    <span class="safe">AMBIENTE DE HOMOLOGAÇÃO</span>
+  </header>
+  <main class="checkout-main">
+    <div class="checkout-heading">
+      <span>EDUCAÇÃO NO TRÂNSITO / INSCRIÇÃO</span>
+      <h1>Finalize sua inscrição<span class="accent">.</span></h1>
+      <p>
+        Confira os dados cadastrados pelo despachante e os detalhes do curso
+        antes de continuar.
+      </p>
+    </div>
+    @if (loading()) {
+    <div class="checkout-card">Carregando informações do pedido...</div>
+    } @else if (error() && !info()) {
+    <div class="checkout-card">
+      <h2>Não foi possível abrir o pedido</h2>
+      <p>{{ error() }}</p>
+    </div>
+    } @else if (info(); as order) {
+    <div class="checkout-grid">
+      <section class="checkout-card">
+        <div class="section-kicker">01 / CURSO SELECIONADO</div>
+        <h2>{{ order.courseTitle }}</h2>
+        <p>Educação no trânsito · Santa Catarina ({{ order.state }})</p>
+        <div class="separator"></div>
+        <div class="section-kicker">02 / DADOS DO ALUNO</div>
+        <div class="field">
+          <span>Nome completo</span><strong>{{ order.studentName }}</strong>
+        </div>
+        <div class="field">
+          <span>E-mail</span><strong>{{ order.studentEmail }}</strong>
+        </div>
+        <div class="field">
+          <span>WhatsApp</span><strong>Final {{ order.studentPhoneLast4 }}</strong>
+        </div>
+        <div class="hint">
+          Os dados foram cadastrados pelo despachante. Para corrigir
+          informações, solicite um novo cadastro antes de pagar.
+        </div>
+        <div class="separator"></div>
+        <div class="section-kicker">03 / PAGAMENTO</div>
+        <p>
+          Esta página demonstra o fluxo futuro do ICETRAN. Nenhuma cobrança
+          real ou matrícula será efetuada.
+        </p>
+        @if (order.paymentStatus === "paid") {
+        <div class="success">
+          ✓ Pagamento de teste confirmado. O despachante já pode acompanhar
+          a venda simulada no portal.
+        </div>
+        } @else {
+        <button type="button" class="pay" [disabled]="processing()" (click)="pay()">
+          {{
+          processing()
+          ? "Processando
+          teste..."
+          : "Confirmar pagamento de teste →"
+          }}
+        </button>
+        }
+        @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+        }
+      </section>
+      <aside class="checkout-card summary">
+        <div class="section-kicker">RESUMO DO PEDIDO</div>
+        <h3>{{ order.courseTitle }}</h3>
+        <div class="price-line">
+          <span>Valor do curso</span><strong>{{ order.amountCents / 100 | currency: "BRL" }}</strong>
+        </div>
+        <div class="separator"></div>
+        <div class="price-line total">
+          <span>Total</span><strong>{{ order.amountCents / 100 | currency: "BRL" }}</strong>
+        </div>
+        <div class="sandbox">TESTE · SEM COBRANÇA REAL</div>
+        <p>
+          O parceiro receberá comissão simulada somente após a confirmação do
+          pagamento nesta página.
+        </p>
+      </aside>
+    </div>
+    }
+  </main>
+  <footer>
+    SEXTA MARCHA · Experiência de compra demonstrativa · ICETRAN ainda não
+    integrado
+  </footer>
+</div>

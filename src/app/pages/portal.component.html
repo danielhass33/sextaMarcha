@@ -6,9 +6,7 @@
         <p>Aguarde enquanto verificamos suas credenciais.</p>
     </section>
 </main>
-}
-
-@else if (!service.user()) {
+} @else if (!service.user()) {
 <main class="auth-page">
     <section class="auth-card">
         <img class="auth-logo" src="images/logo-sexta-marcha.png" alt="Sexta Marcha" />
@@ -41,23 +39,23 @@
 
         <p class="auth-bottom">
             Ainda não é parceiro?
-            <a routerLink="/cadastro-despachante">
-                Cadastre-se
-            </a>
+            <a routerLink="/cadastro-despachante">Cadastre-se</a>
         </p>
 
         @if (error()) {
-        <p class="feedback-error" role="alert">{{ error() }}</p>
+        <p class="feedback-error" role="alert">
+            {{ error() }}
+        </p>
         }
 
         @if (notice()) {
-        <p class="feedback-notice" role="status">{{ notice() }}</p>
+        <p class="feedback-notice" role="status">
+            {{ notice() }}
+        </p>
         }
     </section>
 </main>
-}
-
-@else if (service.role() === "master") {
+} @else if (service.role() === "master") {
 <main class="auth-page">
     <section class="auth-card">
         <div class="eyebrow">ACESSO ADMINISTRATIVO</div>
@@ -68,14 +66,12 @@
             Abrir painel Master →
         </a>
 
-        <button class="link-button" (click)="logout()">
+        <button class="link-button" type="button" (click)="logout()">
             Sair da conta
         </button>
     </section>
 </main>
-}
-
-@else if (service.role() !== "partner") {
+} @else if (service.role() !== "partner") {
 <main class="auth-page">
     <section class="auth-card">
         <div class="eyebrow">CADASTRO DE PARCEIRO</div>
@@ -88,26 +84,28 @@
         </p>
 
         <div class="pending-status">
-            Status: {{ service.profile()?.status || 'Não localizado' }}
+            Status:
+            {{ service.profile()?.status || 'Não localizado' }}
         </div>
 
-        <button class="primary-button full" (click)="refresh()">
+        <button class="primary-button full" type="button" (click)="service.reloadProfile()">
             Atualizar situação
         </button>
 
-        <button class="link-button" (click)="logout()">
+        <button class="link-button" type="button" (click)="logout()">
             Sair da conta
         </button>
     </section>
 </main>
-}
-
-@else {
+} @else {
 <app-dashboard-layout mode="partner" [active]="section()" [name]="service.profile()?.name || ''"
     [business]="service.profile()?.business || ''" (sectionChange)="selectSection($event)" (logout)="logout()">
 
-    @if (section() === "overview") {
+    <!-- ========================================= -->
+    <!-- VISÃO GERAL -->
+    <!-- ========================================= -->
 
+    @if (section() === "overview") {
     <div class="page-heading">
         <div>
             <div class="eyebrow">VISÃO GERAL</div>
@@ -117,44 +115,71 @@
             </p>
         </div>
 
-        <button class="secondary-button" (click)="refresh()">
+        <button class="secondary-button" type="button" (click)="refresh()">
             Atualizar dados ↻
         </button>
     </div>
 
     <section class="welcome-banner">
         <div>
-            <span class="banner-label">PARCEIRO SEXTA MARCHA</span>
+            <span class="banner-label">
+                PARCEIRO SEXTA MARCHA
+            </span>
+
             <h2>Olá, {{ service.profile()?.name }}!</h2>
+
             <p>
                 Sua central de vendas está pronta.
                 Explore os cursos de trânsito disponíveis
-                e comece a ampliar suas oportunidades.
+                e amplie suas oportunidades comerciais.
             </p>
-            <button class="primary-button" (click)="selectSection('courses')">
+
+            <button class="primary-button" type="button" (click)="selectSection('courses')">
                 Explorar cursos →
             </button>
         </div>
-        <div class="banner-decoration">6</div>
+
+        <div class="banner-decoration" aria-hidden="true">
+            6
+        </div>
     </section>
 
+    <section class="sm-howto-strip" aria-label="Como ganhar sua comissão">
+        <div><span>01</span><strong>Escolha o curso</strong><small>Confira a oferta disponível</small></div>
+        <div><span>02</span><strong>Cadastre o aluno</strong><small>Informe os dados com atenção</small></div>
+        <div><span>03</span><strong>Envie o link</strong><small>Compartilhe pelo WhatsApp</small></div>
+        <div><span>04</span><strong>Receba a confirmação</strong><small>Comissão só após pagamento</small></div>
+    </section>
+    <div class="sm-sandbox-title"><strong>Seu painel de homologação</strong><span>Valores demonstrativos · sem dinheiro
+            real</span></div>
+    <section class="metrics sm-four-metrics">
+        <article class="metric-card"><span>Clientes cadastrados</span><strong>{{ registeredClients.length
+                }}</strong><small>Alunos vinculados aos seus pedidos</small></article>
+        <article class="metric-card"><span>Aguardando pagamento</span><strong>{{ pendingOrders.length
+                }}</strong><small>Compartilhe os links pendentes</small></article>
+        <article class="metric-card"><span>Vendas simuladas pagas</span><strong>{{ orderSimulatedRevenue |
+                currency:'BRL' }}</strong><small>Somente testes confirmados no checkout</small></article>
+        <article class="metric-card"><span>Comissões simuladas</span><strong>{{ orderSimulatedCommission |
+                currency:'BRL' }}</strong><small>Não disponíveis para saque</small></article>
+    </section>
+    <div class="sm-sandbox-title"><strong>Operações reais</strong><span>Não inclui homologação</span></div>
     <section class="metrics">
         <article class="metric-card">
             <span>Vendas confirmadas</span>
             <strong>{{ count | number }}</strong>
-            <small>Pagamentos confirmados</small>
+            <small>Pagamentos reais confirmados</small>
         </article>
 
         <article class="metric-card">
             <span>Faturamento</span>
             <strong>{{ revenue | currency:'BRL' }}</strong>
-            <small>Total das vendas pagas</small>
+            <small>Total das vendas reais pagas</small>
         </article>
 
         <article class="metric-card">
             <span>Comissões registradas</span>
             <strong>{{ commission | currency:'BRL' }}</strong>
-            <small>Sobre vendas confirmadas</small>
+            <small>Sobre vendas reais confirmadas</small>
         </article>
     </section>
 
@@ -173,16 +198,20 @@
                     <strong>Conheça o catálogo</strong>
                     <p>Veja os cursos que poderá oferecer.</p>
                 </div>
-                <button (click)="selectSection('courses')">→</button>
+                <button type="button" (click)="selectSection('courses')" aria-label="Abrir catálogo">
+                    →
+                </button>
             </div>
 
             <div class="quick-action">
                 <div class="quick-icon">02</div>
                 <div>
                     <strong>Inicie uma venda</strong>
-                    <p>Acesse o módulo comercial.</p>
+                    <p>Conheça a jornada comercial.</p>
                 </div>
-                <button (click)="selectSection('new-sale')">→</button>
+                <button type="button" (click)="startNewSale()" aria-label="Iniciar venda">
+                    →
+                </button>
             </div>
 
             <div class="quick-action">
@@ -191,132 +220,748 @@
                     <strong>Acompanhe resultados</strong>
                     <p>Consulte suas vendas registradas.</p>
                 </div>
-                <button (click)="selectSection('sales')">→</button>
+                <button type="button" (click)="selectSection('sales')" aria-label="Consultar vendas">
+                    →
+                </button>
             </div>
         </article>
 
         <article class="content-card">
             <div class="eyebrow">MEU ESTABELECIMENTO</div>
             <h2>{{ service.profile()?.business }}</h2>
-            <span class="active-pill">● Parceiro ativo</span>
+
+            <span class="active-pill">
+                ● Parceiro ativo
+            </span>
 
             <div class="business-details">
                 <div>
                     <span>Responsável</span>
                     <strong>{{ service.profile()?.name }}</strong>
                 </div>
+
                 <div>
                     <span>Localização</span>
                     <strong>{{ service.profile()?.city }}</strong>
                 </div>
+
                 <div>
                     <span>CRDD</span>
                     <strong>{{ service.profile()?.crdd }}</strong>
                 </div>
             </div>
 
-            <button class="secondary-button full" (click)="selectSection('business')">
+            <button class="secondary-button full" type="button" (click)="selectSection('business')">
                 Ver meu cadastro
             </button>
         </article>
     </section>
     }
 
+    <!-- ========================================= -->
+    <!-- CATÁLOGO DE CURSOS -->
+    <!-- ========================================= -->
+
     @if (section() === "courses") {
     <div class="page-heading">
         <div>
             <div class="eyebrow">EDUCAÇÃO NO TRÂNSITO</div>
             <h1>Catálogo de cursos<span>.</span></h1>
-            <p>Conheça as soluções de educação disponíveis.</p>
+            <p>
+                Explore nossas soluções de educação e encontre
+                novas oportunidades para seus clientes.
+            </p>
         </div>
     </div>
 
-    <section class="course-grid">
-        @for (course of catalog; track course.id) {
-        <article class="course-card">
-            <div class="course-top">
-                <span class="course-category">EDUCAÇÃO NO TRÂNSITO</span>
-                <span class="course-symbol">↗</span>
-            </div>
+    <section class="sm-catalog-intro">
+        <div>
+            <span class="sm-overline">
+                SEXTA MARCHA / EDUCAÇÃO
+            </span>
 
-            <h2>{{ course.title }}</h2>
+            <h2>
+                Mais oportunidades para quem vive o trânsito.
+            </h2>
+
             <p>
-                Consulte as informações e condições deste curso
-                antes de oferecê-lo ao cliente.
+                Conheça os cursos, oriente seus clientes
+                e acompanhe suas vendas em uma única plataforma.
             </p>
 
-            <div class="course-bottom">
-                <span>Oferta comercial</span>
-                <button class="secondary-button" (click)="selectSection('new-sale')">
-                    Ver como vender →
+            <button type="button" class="primary-button" (click)="startNewSale()">
+                Como funciona a venda →
+            </button>
+        </div>
+
+        <span class="sm-catalog-number" aria-hidden="true">
+            6
+        </span>
+    </section>
+
+    <div class="sm-catalog-tools">
+        <label class="sm-search">
+            <span>ENCONTRE UM CURSO</span>
+
+            <input type="search" [ngModel]="courseSearch()" (ngModelChange)="courseSearch.set($event)"
+                placeholder="Pesquisar cursos..." />
+        </label>
+
+        <div class="sm-filter-list">
+            @for (category of categories; track category) {
+            <button type="button" class="sm-filter" [class.is-active]="categoryFilter() === category"
+                (click)="categoryFilter.set(category)">
+                {{ category }}
+            </button>
+            }
+        </div>
+    </div>
+
+    <section class="sm-course-grid">
+        @for (course of filteredCourses; track course.id) {
+        <article class="sm-course-card">
+            <div class="sm-course-image">
+                <img [src]="course.image" [alt]="course.title" loading="lazy"
+                    onerror="this.onerror=null;this.src='/images/course-fallback.webp'" />
+
+                <span class="sm-course-image-label">
+                    {{ course.category }}
+                </span>
+            </div>
+
+            <div class="sm-course-content">
+                <div class="sm-course-meta">
+                    @if (course.hours) {
+                    <span>
+                        {{ course.hours }} horas-aula
+                    </span>
+                    }
+
+                    <span>
+                        {{
+                        course.offers.length
+                        ? 'Homologação disponível'
+                        : 'Em preparação'
+                        }}
+                    </span>
+                </div>
+
+                <h2>{{ course.title }}</h2>
+
+                <p>{{ course.description }}</p>
+
+                <div class="sm-course-audience">
+                    <strong>INDICADO PARA</strong>
+                    <span>{{ course.audience }}</span>
+                </div>
+
+                <button type="button" class="secondary-button full" (click)="openCourse(course)">
+                    Conhecer curso →
                 </button>
             </div>
         </article>
         } @empty {
         <div class="content-card">
-            Nenhum curso cadastrado no catálogo.
+            Nenhum curso encontrado.
         </div>
         }
     </section>
     }
 
+    <!-- ========================================= -->
+    <!-- NOVA VENDA -->
+    <!-- ========================================= -->
+
     @if (section() === "new-sale") {
     <div class="page-heading">
         <div>
-            <div class="eyebrow">OPERAÇÃO COMERCIAL</div>
+            <div class="eyebrow">CENTRAL COMERCIAL</div>
             <h1>Nova venda<span>.</span></h1>
-            <p>Seu espaço para iniciar uma venda de curso.</p>
+            <p>
+                Uma jornada simples, do curso à matrícula.
+            </p>
         </div>
+
+        <button type="button" class="secondary-button" (click)="openCatalog()">
+            Ver catálogo
+        </button>
     </div>
 
-    <section class="content-card empty-module">
-        <div class="module-icon">＋</div>
-        <h2>Vamos conectar seu fluxo de vendas.</h2>
-        <p>
-            O catálogo já pode ser consultado.
-            A geração de indicações e a confirmação de
-            pagamentos serão habilitadas após a integração
-            comercial com a plataforma de cursos.
+    <div class="sm-info-callout sm-sale-help"><strong>💡 Seu trabalho termina quando você envia o link.</strong>
+        <p>Exemplo: Maria precisa do curso de reciclagem. Você seleciona o curso, cadastra Maria e envia o link no
+            WhatsApp. Maria abre a página de compra e confirma o pagamento. Só então sua comissão é registrada. <b>Não
+                receba dinheiro diretamente do aluno.</b></p>
+    </div>
+    <div class="sm-visual-journey">
+        <div><span class="sm-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none"
+                    stroke="#ff3b0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 7v14" />
+                    <path
+                        d="M3 18V5a2 2 0 0 1 2-2h3a4 4 0 0 1 4 4 4 4 0 0 1 4-4h3a2 2 0 0 1 2 2v13h-5a4 4 0 0 0-4 3 4 4 0 0 0-4-3H3Z" />
+                </svg>
+            </span><strong>1. CURSO</strong><small>Selecione a oferta</small></div>
+        <div><span class="sm-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none"
+                    stroke="#ff3b0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="10" cy="8" r="4" />
+                    <path d="M3 21v-2a7 7 0 0 1 12-5" />
+                    <path d="M19 15v6M16 18h6" />
+                </svg>
+            </span><strong>2. CADASTRO</strong><small>Dados do aluno</small></div>
+        <div><span class="sm-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none"
+                    stroke="#ff3b0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m22 2-7 20-4-9-9-4Z" />
+                    <path d="M22 2 11 13" />
+                </svg>
+            </span><strong>3. WHATSAPP</strong><small>Envie o link</small></div>
+        <div><span class="sm-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none"
+                    stroke="#ff3b0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2" />
+                    <path d="M2 10h20" />
+                    <path d="M6 15h4" />
+                </svg>
+            </span><strong>4. PAGAMENTO</strong><small>Cliente finaliza</small></div>
+        <div><span class="sm-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none"
+                    stroke="#ff3b0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="m12 2 2.4 2 3.1-.2.8 3 2.7 1.6-1 3 1 3-2.7 1.6-.8 3-3.1-.2-2.4 2-2.4-2-3.1.2-.8-3L3 14.4l1-3-1-3 2.7-1.6.8-3 3.1.2Z" />
+                    <path d="m8.5 12 2.3 2.3 4.7-4.7" />
+                </svg>
+            </span><strong>5. COMISSÃO</strong><small>Após confirmação</small></div>
+    </div>
+    <!-- GUIA DO PARCEIRO -->
+
+    @if (saleStep() === "guide") {
+    <section class="content-card sm-guide">
+        <div class="eyebrow">GUIA DO PARCEIRO</div>
+
+        <h2>Como funciona uma venda?</h2>
+
+        <p class="muted">
+            Você identifica a necessidade do cliente,
+            registra o pedido e acompanha a operação.
         </p>
-        <button class="primary-button" (click)="selectSection('courses')">
-            Ver catálogo de cursos →
+
+        <div class="sm-timeline">
+            @for (step of saleTimeline; track step.number) {
+            <div class="sm-timeline-item">
+                <div class="sm-timeline-marker">
+                    {{ step.number }}
+                </div>
+
+                <div>
+                    <h3>{{ step.title }}</h3>
+                    <p>{{ step.description }}</p>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="sm-guide-notice">
+            A matrícula depende da confirmação do pagamento
+            e da aceitação pela instituição responsável.
+            Durante a homologação, os pagamentos são simulados.
+        </div>
+
+        <button type="button" class="primary-button" (click)="openCatalog()">
+            Escolher um curso →
         </button>
     </section>
     }
+
+    <!-- DETALHES DO CURSO -->
+
+    @if (saleStep() === "details") {
+    @if (selectedCourse(); as course) {
+    <section class="content-card sm-course-detail">
+        <div class="eyebrow">
+            INFORMAÇÕES DO CURSO
+        </div>
+
+        <div class="sm-detail-layout">
+            <div class="sm-detail-image">
+                <img [src]="course.image" [alt]="course.title"
+                    onerror="this.onerror=null;this.src='/images/course-fallback.webp'" />
+            </div>
+
+            <div>
+                <span class="sm-detail-category">
+                    {{ course.category }}
+                </span>
+
+                <h2>{{ course.title }}</h2>
+
+                <p>{{ course.description }}</p>
+
+                <p>
+                    <strong>Público-alvo:</strong>
+                    {{ course.audience }}
+                </p>
+
+                @if (course.hours) {
+                <p>
+                    <strong>Carga horária:</strong>
+                    {{ course.hours }} horas-aula
+                </p>
+                }
+
+                @if (course.notes) {
+                <p class="muted">
+                    {{ course.notes }}
+                </p>
+                }
+            </div>
+        </div>
+
+        <div class="sm-detail-columns">
+            <div>
+                <h3>O que o aluno encontrará</h3>
+
+                <ul>
+                    @for (benefit of course.benefits; track benefit) {
+                    <li>{{ benefit }}</li>
+                    }
+                </ul>
+            </div>
+
+            <div>
+                <h3>Antes de iniciar</h3>
+
+                <ul>
+                    @for (requirement of course.requirements; track requirement) {
+                    <li>{{ requirement }}</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="sm-offer-box">
+            <div>
+                <div class="eyebrow">
+                    DISPONIBILIDADE COMERCIAL
+                </div>
+
+                @if (canCreateTestOrder) {
+                <h3>Reciclagem — Santa Catarina</h3>
+
+                <strong class="sm-offer-price">
+                    {{ selectedPrice | currency:'BRL' }}
+                </strong>
+
+                <p class="muted">
+                    Oferta exclusiva de homologação.
+                    Nenhuma cobrança real será realizada.
+                </p>
+                } @else {
+                <h3>Oferta em preparação</h3>
+
+                <p class="muted">
+                    Estamos aguardando a confirmação de preço,
+                    disponibilidade e condições comerciais.
+                </p>
+                }
+            </div>
+
+            <button type="button" class="primary-button" [disabled]="!canCreateTestOrder" (click)="continueToStudent()">
+                {{
+                canCreateTestOrder
+                ? 'Iniciar cadastro →'
+                : 'Indisponível para venda'
+                }}
+            </button>
+        </div>
+
+        @if (orderError()) {
+        <p class="feedback-error" role="alert">
+            {{ orderError() }}
+        </p>
+        }
+    </section>
+    }
+    }
+
+    <!-- CADASTRO DO ALUNO -->
+
+    @if (saleStep() === "student") {
+    <div class="sm-step-header">
+        <span>ETAPA 01 / CADASTRO</span>
+
+        <button type="button" class="secondary-button" (click)="backToDetails()">
+            ← Voltar ao curso
+        </button>
+    </div>
+
+    <form #studentForm="ngForm" class="content-card enrollment-form" (ngSubmit)="continueToReview()">
+        <div class="eyebrow">
+            01 / IDENTIFICAÇÃO
+        </div>
+
+        <h2>Dados do aluno</h2>
+
+        <div class="enrollment-grid">
+            <label class="full-field">
+                Nome completo
+
+                <input name="fullName" [(ngModel)]="student.fullName" required minlength="3" autocomplete="name" />
+            </label>
+
+            <label>
+                CPF
+
+                <input name="document" [(ngModel)]="student.document" required maxlength="14"
+                    placeholder="000.000.000-00" />
+            </label>
+
+            <label>
+                Data de nascimento
+
+                <input name="dateOfBirth" type="date" [(ngModel)]="student.dateOfBirth" required />
+            </label>
+
+            <label>
+                E-mail
+
+                <input name="studentEmail" type="email" [(ngModel)]="student.email" required />
+            </label>
+
+            <label>
+                WhatsApp
+
+                <input name="phone" type="tel" [(ngModel)]="student.phone" required />
+            </label>
+        </div>
+
+        <div class="eyebrow">
+            02 / HABILITAÇÃO
+        </div>
+
+        <h2>Dados da CNH</h2>
+
+        <div class="enrollment-grid">
+            <label>
+                Número de registro da CNH
+
+                <input name="cnh" [(ngModel)]="student.cnh" required />
+            </label>
+
+            <label>
+                Categoria
+
+                <select name="cnhCategory" [(ngModel)]="student.cnhCategory" required>
+                    @for (
+                    cat of ['A', 'B', 'AB', 'C', 'D', 'E', 'AC', 'AD', 'AE'];
+                    track cat
+                    ) {
+                    <option [value]="cat">
+                        {{ cat }}
+                    </option>
+                    }
+                </select>
+            </label>
+        </div>
+
+        <div class="eyebrow">
+            03 / ENDEREÇO
+        </div>
+
+        <h2>Endereço do aluno</h2>
+
+        <div class="enrollment-grid">
+            <label>
+                CEP
+
+                <input name="zipCode" [(ngModel)]="student.address.zipCode" required />
+            </label>
+
+            <label>
+                Estado (UF)
+
+                <input name="state" [(ngModel)]="student.address.state" required maxlength="2" />
+            </label>
+
+            <label class="full-field">
+                Logradouro
+
+                <input name="street" [(ngModel)]="student.address.street" required />
+            </label>
+
+            <label>
+                Número
+
+                <input name="number" [(ngModel)]="student.address.number" required />
+            </label>
+
+            <label>
+                Complemento
+
+                <input name="complement" [(ngModel)]="student.address.complement" />
+            </label>
+
+            <label>
+                Bairro
+
+                <input name="district" [(ngModel)]="student.address.district" required />
+            </label>
+
+            <label>
+                Cidade
+
+                <input name="city" [(ngModel)]="student.address.city" required />
+            </label>
+        </div>
+
+        <label class="consent-field">
+            <input type="checkbox" name="orderConsent" [(ngModel)]="orderConsent" required />
+
+            Confirmo que estou utilizando dados fictícios
+            autorizados para homologação.
+        </label>
+
+        @if (orderError()) {
+        <p class="feedback-error" role="alert">
+            {{ orderError() }}
+        </p>
+        }
+
+        <button type="submit" class="primary-button" [disabled]="studentForm.invalid || !orderConsent">
+            Revisar pedido →
+        </button>
+    </form>
+    }
+
+    <!-- REVISÃO DO PEDIDO -->
+
+    @if (saleStep() === "review") {
+    <section class="content-card sm-review">
+        <div class="eyebrow">
+            ETAPA 02 / REVISÃO
+        </div>
+
+        <h2>Confira antes de confirmar.</h2>
+
+        <p class="muted">
+            Revise os dados e a oferta selecionada.
+        </p>
+
+        <div class="sm-review-grid">
+            <div>
+                <span>Curso</span>
+                <strong>
+                    {{ selectedCourse()?.title }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Oferta</span>
+                <strong>{{ selectedOfferId }}</strong>
+            </div>
+
+            <div>
+                <span>Valor de homologação</span>
+                <strong>
+                    {{ selectedPrice | currency:'BRL' }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Aluno</span>
+                <strong>{{ student.fullName }}</strong>
+            </div>
+
+            <div>
+                <span>CPF</span>
+                <strong>{{ student.document }}</strong>
+            </div>
+
+            <div>
+                <span>E-mail</span>
+                <strong>{{ student.email }}</strong>
+            </div>
+
+            <div>
+                <span>WhatsApp</span>
+                <strong>{{ student.phone }}</strong>
+            </div>
+
+            <div>
+                <span>CNH</span>
+                <strong>{{ student.cnh }}</strong>
+            </div>
+
+            <div>
+                <span>Categoria</span>
+                <strong>{{ student.cnhCategory }}</strong>
+            </div>
+
+            <div>
+                <span>Estado da oferta</span>
+                <strong>Santa Catarina</strong>
+            </div>
+        </div>
+
+        <div class="sm-guide-notice">
+            Este pedido será criado no ambiente de testes.
+            Não haverá cobrança real nem envio ao ICETRAN.
+        </div>
+
+        @if (orderError()) {
+        <p class="feedback-error" role="alert">
+            {{ orderError() }}
+        </p>
+        }
+
+        <div class="sm-actions">
+            <button type="button" class="secondary-button" [disabled]="orderBusy()" (click)="backToStudent()">
+                ← Corrigir dados
+            </button>
+
+            <button type="button" class="primary-button" [disabled]="orderBusy()" (click)="submitCourseOrder()">
+                {{
+                orderBusy()
+                ? 'Criando pedido...'
+                : 'Confirmar pedido de teste →'
+                }}
+            </button>
+        </div>
+    </section>
+    }
+
+    <!-- PEDIDO CRIADO -->
+
+    @if (saleStep() === "success") {
+    <section class="content-card sm-success">
+        <div class="sm-success-icon">✓</div>
+
+        <div class="eyebrow">
+            PEDIDO REGISTRADO
+        </div>
+
+        <h2>Pedido criado com sucesso.</h2>
+
+        <p>{{ orderSuccess() }}</p>
+
+        <p class="muted">
+            O despachante concluiu o cadastro. Agora envie o link para o cliente finalizar a compra. A comissão só será
+            simulada após a confirmação do pagamento na página do cliente.
+        </p>
+
+        @if (checkoutUrl()) {
+        <div class="sm-checkout-share">
+            <label for="checkout-link">LINK DE COMPRA DO CLIENTE</label>
+            <input id="checkout-link" type="text" [value]="checkoutUrl()" readonly />
+            <div class="sm-actions">
+                <button type="button" class="primary-button" (click)="shareCheckout()">Compartilhar no WhatsApp</button>
+                <button type="button" class="secondary-button" (click)="copyCheckout()">{{checkoutCopied() ? 'Copiado!'
+                    : 'Copiar link'}}</button>
+            </div>
+        </div>
+        }
+        <div class="sm-actions">
+            <button type="button" class="primary-button" (click)="selectSection('sales')">
+                Acompanhar pedido →
+            </button>
+
+            <button type="button" class="secondary-button" (click)="startNewSale()">
+                Nova venda
+            </button>
+        </div>
+    </section>
+    }
+    }
+
+    <!-- ========================================= -->
+    <!-- CLIENTES -->
+    <!-- ========================================= -->
 
     @if (section() === "customers") {
     <div class="page-heading">
         <div>
             <div class="eyebrow">RELACIONAMENTO</div>
             <h1>Meus clientes<span>.</span></h1>
-            <p>Acompanhe suas futuras indicações comerciais.</p>
+            <p>
+                Acompanhe suas futuras indicações comerciais.
+            </p>
         </div>
     </div>
 
-    <section class="content-card empty-module">
-        <div class="module-icon">♧</div>
-        <h2>Gestão de clientes</h2>
-        <p>
-            Este módulo será conectado aos clientes e
-            às indicações atribuídas ao seu estabelecimento.
-        </p>
+    <div class="sm-info-callout"><strong>Seus clientes já aparecem aqui.</strong>
+        <p>O cadastro acontece na Nova venda. Mesmo antes de pagar, o aluno entra na lista. A comissão só surge quando o
+            checkout confirma o pagamento de teste.</p><button type="button" class="primary-button"
+            (click)="startNewSale()">+ Cadastrar novo aluno</button>
+    </div>
+    <section class="content-card">
+        <div class="card-header">
+            <div>
+                <div class="eyebrow">CARTEIRA DE CLIENTES</div>
+                <h2>{{ registeredClients.length }} cliente(s) cadastrado(s)</h2>
+            </div><button type="button" class="secondary-button" (click)="refreshCourseOrders()">Atualizar ↻</button>
+        </div>
+        @if (courseOrders.loading()) { <p>Carregando clientes...</p> }
+        @else if (!registeredClients.length) { <div class="sm-empty-friendly"><span>👥</span>
+            <h3>Seu primeiro cliente começa aqui</h3>
+            <p>Escolha um curso, preencha o cadastro e gere o link de compra. O aluno aparecerá nesta tela
+                automaticamente.</p><button type="button" class="primary-button" (click)="openCatalog()">Ver cursos
+                disponíveis →</button>
+        </div> }
+        @else {
+        <div class="sm-client-grid">
+            @for (client of registeredClients; track client.id) {
+            <article class="sm-client-card">
+                <div class="sm-client-avatar">{{ client.studentName.slice(0,1).toUpperCase() }}</div>
+                <div class="sm-client-details"><strong>{{ client.studentName }}</strong><small>{{ client.studentEmail
+                        }}</small><small>{{ client.courseTitle }}</small><span class="sm-state"
+                        [class.sm-state-paid]="client.paymentStatus === 'paid'">{{ client.paymentStatus === 'paid' ? '✓
+                        Pagamento simulado confirmado' : '◷ Aguardando pagamento' }}</span></div>
+                @if (client.paymentStatus === 'pending') { <button type="button" class="secondary-button"
+                    (click)="regenerateCheckout(client.id)">Gerar link ↗</button> }
+            </article>
+            }
+        </div>
+        }
     </section>
     }
+
+    <!-- ========================================= -->
+    <!-- MINHAS VENDAS -->
+    <!-- ========================================= -->
 
     @if (section() === "sales") {
     <div class="page-heading">
         <div>
             <div class="eyebrow">HISTÓRICO COMERCIAL</div>
             <h1>Minhas vendas<span>.</span></h1>
-            <p>Consulte as vendas registradas em sua conta.</p>
+
+            <p>
+                Consulte os pedidos e acompanhe os pagamentos
+                da sua operação.
+            </p>
         </div>
 
-        <button class="secondary-button" (click)="refresh()">
+        <button class="secondary-button" type="button" (click)="refresh(); refreshCourseOrders()">
             Atualizar ↻
         </button>
     </div>
 
     <section class="content-card">
+        <div class="card-header">
+            <div>
+                <div class="eyebrow">
+                    RESULTADOS FINANCEIROS
+                </div>
+
+                <h2>Vendas registradas</h2>
+
+                <p class="muted">
+                    Operações simuladas são identificadas
+                    e não entram nos indicadores reais.
+                </p>
+            </div>
+        </div>
+
         <div class="table-scroll">
             <table>
                 <thead>
@@ -327,16 +972,35 @@
                         <th>Status</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @for (sale of service.sales(); track sale.id) {
                     <tr>
-                        <td>{{ courseName(sale.courseId) }}</td>
-                        <td>{{ sale.amount | currency:'BRL' }}</td>
+                        <td>
+                            {{ courseName(sale.courseId) }}
+                        </td>
+
+                        <td>
+                            {{ sale.amount | currency:'BRL' }}
+                        </td>
+
                         <td>
                             {{ sale.commissionAmount | currency:'BRL' }}
                         </td>
+
                         <td>
-                            <span class="table-status">{{ sale.status }}</span>
+                            @if (
+                            sale.simulated === true ||
+                            sale.environment === 'sandbox'
+                            ) {
+                            <span class="table-status">
+                                Teste · pagamento simulado
+                            </span>
+                            } @else {
+                            <span class="table-status">
+                                {{ sale.status }}
+                            </span>
+                            }
                         </td>
                     </tr>
                     }
@@ -346,51 +1010,243 @@
 
         @if (!service.sales().length) {
         <div class="table-empty">
-            Nenhuma venda registrada até o momento.
+            Nenhum pagamento registrado até o momento.
         </div>
         }
     </section>
+
+    <!-- PEDIDOS DE CURSOS -->
+
+    <section class="content-card">
+        <div class="card-header">
+            <div>
+                <div class="eyebrow">
+                    HOMOLOGAÇÃO
+                </div>
+
+                <h2>Pedidos de cursos</h2>
+
+                <p class="muted">
+                    Acompanhe o pagamento e a matrícula
+                    de cada pedido.
+                </p>
+            </div>
+
+            <button class="secondary-button" type="button" (click)="refreshCourseOrders()">
+                Atualizar pedidos
+            </button>
+        </div>
+
+        @if (orderError()) {
+        <p class="feedback-error" role="alert">
+            {{ orderError() }}
+        </p>
+        }
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Curso</th>
+                        <th>Valor</th>
+                        <th>Pagamento</th>
+                        <th>Matrícula</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (
+                    order of courseOrders.orders();
+                    track order.id
+                    ) {
+                    <tr>
+                        <td>
+                            {{ order.id.slice(0, 12) }}
+                        </td>
+
+                        <td>
+                            {{ order.courseTitle }}
+                        </td>
+
+                        <td>
+                            {{
+                            order.amountCents / 100
+                            | currency:'BRL'
+                            }}
+                        </td>
+
+                        <td>
+                            @if (
+                            order.environment === 'sandbox' &&
+                            order.paymentStatus === 'paid'
+                            ) {
+                            <span class="table-status">
+                                Pago (simulado)
+                            </span>
+                            } @else {
+                            <span class="table-status">
+                                {{ order.paymentStatus }}
+                            </span>
+                            }
+                        </td>
+
+                        <td>
+                            {{ order.enrollmentStatus }}
+                        </td>
+                        <td><button type="button" class="secondary-button" (click)="regenerateCheckout(order.id)">Gerar
+                                link</button></td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="6">
+                            Nenhum pedido de teste registrado.
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
     }
+
+    <!-- ========================================= -->
+    <!-- COMISSÕES -->
+    <!-- ========================================= -->
 
     @if (section() === "commissions") {
     <div class="page-heading">
         <div>
             <div class="eyebrow">FINANCEIRO</div>
             <h1>Minhas comissões<span>.</span></h1>
-            <p>Acompanhe os valores registrados sobre vendas pagas.</p>
+
+            <p>
+                Acompanhe suas comissões reais
+                e operações de homologação.
+            </p>
         </div>
+
+        <button class="secondary-button" type="button" (click)="refresh()">
+            Atualizar ↻
+        </button>
     </div>
 
     <section class="metrics">
         <article class="metric-card">
-            <span>Comissões registradas</span>
-            <strong>{{ commission | currency:'BRL' }}</strong>
-            <small>Vendas com status paid</small>
+            <span>Comissões reais</span>
+
+            <strong>
+                {{ commission | currency:'BRL' }}
+            </strong>
+
+            <small>
+                Somente vendas reais confirmadas
+            </small>
         </article>
 
         <article class="metric-card">
-            <span>Vendas confirmadas</span>
-            <strong>{{ count }}</strong>
-            <small>Base de cálculo atual</small>
+            <span>Comissões simuladas</span>
+
+            <strong>
+                {{ orderSimulatedCommission | currency:'BRL' }}
+            </strong>
+
+            <small>
+                Valores fictícios de homologação
+            </small>
+        </article>
+
+        <article class="metric-card">
+            <span>Vendas simuladas</span>
+
+            <strong>{{ paidSandboxOrders.length }}</strong>
+
+            <small>
+                Pagamentos de teste registrados
+            </small>
         </article>
     </section>
 
     <section class="content-card">
-        <h2>Detalhamento financeiro</h2>
+        <div class="eyebrow">
+            HOMOLOGAÇÃO FINANCEIRA
+        </div>
+
+        <h2>Detalhamento de comissões</h2>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Curso</th>
+                        <th>Venda</th>
+                        <th>Comissão</th>
+                        <th>Situação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (
+                    sale of simulatedSales;
+                    track sale.id
+                    ) {
+                    <tr>
+                        <td>
+                            {{ courseName(sale.courseId) }}
+                        </td>
+
+                        <td>
+                            {{ sale.amount | currency:'BRL' }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{
+                                sale.commissionAmount
+                                | currency:'BRL'
+                                }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            <span class="status-pill is-pending">
+                                Simulada
+                            </span>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4">
+                            Nenhuma comissão simulada registrada.
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
         <p class="muted">
-            Os valores acima representam comissões registradas
-            sobre vendas pagas. O controle de repasses e saques
-            será integrado em uma etapa posterior.
+            Os valores de homologação não representam
+            saldo disponível e não podem ser sacados
+            ou transferidos.
         </p>
     </section>
     }
+
+    <!-- ========================================= -->
+    <!-- MEU ESTABELECIMENTO -->
+    <!-- ========================================= -->
 
     @if (section() === "business") {
     <div class="page-heading">
         <div>
             <div class="eyebrow">MINHA CONTA</div>
             <h1>Meu estabelecimento<span>.</span></h1>
-            <p>Informações do seu cadastro de parceiro.</p>
+
+            <p>
+                Informações do seu cadastro de parceiro.
+            </p>
         </div>
     </div>
 
@@ -398,39 +1254,66 @@
         <div class="details-grid">
             <div>
                 <span>Estabelecimento</span>
-                <strong>{{ service.profile()?.business }}</strong>
+                <strong>
+                    {{ service.profile()?.business }}
+                </strong>
             </div>
+
             <div>
                 <span>Responsável</span>
-                <strong>{{ service.profile()?.name }}</strong>
+                <strong>
+                    {{ service.profile()?.name }}
+                </strong>
             </div>
+
             <div>
                 <span>CNPJ</span>
-                <strong>{{ service.profile()?.cnpj }}</strong>
+                <strong>
+                    {{ service.profile()?.cnpj }}
+                </strong>
             </div>
+
             <div>
                 <span>CRDD</span>
-                <strong>{{ service.profile()?.crdd }}</strong>
+                <strong>
+                    {{ service.profile()?.crdd }}
+                </strong>
             </div>
+
             <div>
                 <span>E-mail</span>
-                <strong>{{ service.profile()?.email }}</strong>
+                <strong>
+                    {{ service.profile()?.email }}
+                </strong>
             </div>
+
             <div>
                 <span>WhatsApp</span>
-                <strong>{{ service.profile()?.phone }}</strong>
+                <strong>
+                    {{ service.profile()?.phone }}
+                </strong>
             </div>
+
             <div>
                 <span>Cidade</span>
-                <strong>{{ service.profile()?.city }}</strong>
+                <strong>
+                    {{ service.profile()?.city }}
+                </strong>
             </div>
+
             <div>
                 <span>Situação</span>
-                <strong>{{ service.profile()?.status }}</strong>
+                <strong>
+                    {{ service.profile()?.status }}
+                </strong>
             </div>
         </div>
     </section>
     }
+
+    <!-- ========================================= -->
+    <!-- MENSAGENS GERAIS -->
+    <!-- ========================================= -->
 
     @if (error() || service.error()) {
     <p class="feedback-error" role="alert">

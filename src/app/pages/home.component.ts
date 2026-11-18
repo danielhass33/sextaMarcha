@@ -1,13 +1,12 @@
 import { Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { LeadFormComponent } from "../components/lead-form.component";
-import { services } from "../data/services";
+import { courses } from "../data/courses";
 @Component({
   standalone: true,
-  imports: [RouterLink, LeadFormComponent],
+  imports: [RouterLink],
   templateUrl: "./home.component.html",
   styleUrl: "./home.component.css",
 })
 export class HomeComponent {
-  catalog = services;
+  readonly featuredCourses = courses.slice(0, 3);
 }
