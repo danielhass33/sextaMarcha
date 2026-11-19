@@ -5,6 +5,16 @@
       <img src="images/logo-sexta-marcha.png" alt="6ª Marcha" />
     </a>
 
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <a routerLink="/" fragment="inicio">Início</a>
+      <a routerLink="/" fragment="solucoes">Soluções</a>
+      <a routerLink="/" fragment="pra-quem-e">Pra quem é</a>
+      <a routerLink="/" fragment="como-funciona">Como funciona</a>
+      <a routerLink="/" fragment="portal">Plataforma</a>
+      <a routerLink="/cadastro-despachante" class="desktop-nav-cta">Seja parceiro ↗</a>
+      <a routerLink="/portal" class="desktop-nav-login">Acessar portal</a>
+    </nav>
+
     <button class="hamburger" type="button" (click)="menuOpen.set(!menuOpen())" [attr.aria-expanded]="menuOpen()"
       aria-controls="nav-menu" [attr.aria-label]="menuOpen() ? 'Fechar menu' : 'Abrir menu'">
       <span></span>
@@ -16,8 +26,8 @@
   <nav id="nav-menu" class="nav-dropdown" [class.open]="menuOpen()" aria-label="Menu principal">
     <a routerLink="/" fragment="como-funciona" (click)="menuOpen.set(false)">Como funciona</a>
     <a routerLink="/" fragment="cursos" (click)="menuOpen.set(false)">Cursos de trânsito</a>
-    <a routerLink="/" fragment="portal" (click)="menuOpen.set(false)">Conheça o portal</a>
-    <a routerLink="/" fragment="duvidas" (click)="menuOpen.set(false)">Dúvidas frequentes</a>
+    <a routerLink="/" fragment="solucoes" (click)="menuOpen.set(false)">Nossas soluções</a>
+    <a routerLink="/" fragment="pra-quem-e" (click)="menuOpen.set(false)">Pra quem é</a>
     <a routerLink="/portal" (click)="menuOpen.set(false)">Entrar no portal</a>
     <a routerLink="/cadastro-despachante" (click)="menuOpen.set(false)">Quero ser parceiro ↗</a>
   </nav>

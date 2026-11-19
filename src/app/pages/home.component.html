@@ -1,52 +1,244 @@
-<main class="sm-home">
-  <section class="sm-landing-hero" id="inicio">
-    <div class="sm-landing-hero-photo"></div><div class="sm-landing-hero-shade"></div>
-    <div class="wrap sm-landing-hero-content">
-      <div class="sm-landing-eyebrow">SEXTA MARCHA / PARCEIROS DE EDUCAÇÃO NO TRÂNSITO</div>
-      <h1>SEU ATENDIMENTO.<br><em>NOVAS VENDAS.</em><br>MAIS RESULTADOS.</h1>
-      <p>Transforme a demanda dos seus clientes em oportunidades comerciais. Cadastre o aluno, envie o link de compra e acompanhe sua comissão em um só lugar.</p>
-      <div class="sm-landing-actions"><a routerLink="/cadastro-despachante" class="sm-landing-btn">QUERO SER PARCEIRO <span>↗</span></a><a href="#como-funciona" class="sm-landing-outline">ENTENDA COMO FUNCIONA ↓</a></div>
-      <div class="sm-landing-hero-note">PARA DESPACHANTES E PROFISSIONAIS PARCEIROS · ACESSO SUJEITO À APROVAÇÃO</div>
-    </div>
-  </section>
-  <section class="sm-landing-proof"><div class="wrap sm-landing-proof-grid"><span>01 / ESCOLHA UM CURSO</span><span>02 / CADASTRE O ALUNO</span><span>03 / ENVIE O LINK</span><span>04 / ACOMPANHE A COMISSÃO</span></div></section>
-  <section class="sm-landing-section sm-landing-steps" id="como-funciona"><div class="wrap">
-    <div class="sm-landing-heading"><span>01 / SIMPLES DO COMEÇO AO FIM</span><h2>VOCÊ INDICA.<br><em>A PLATAFORMA FAZ O RESTO.</em></h2><p>Sem cobrar do aluno, sem planilhas e sem dúvida sobre a próxima etapa.</p></div>
-    <div class="sm-landing-step-grid">
-      <article><div class="sm-landing-step-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="8" height="15" rx="1.5"/><path d="M7 8h1M7 12h1M14 6h7v14h-7M17 10h1M17 14h1"/></svg><span>01</span></div><h3>Encontre o curso certo</h3><p>Consulte as opções de educação no trânsito e confira quais ofertas estão disponíveis.</p></article>
-      <article><div class="sm-landing-step-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="9" r="3"/><path d="M6.5 18c.6-3 2.5-4.5 5.5-4.5s4.9 1.5 5.5 4.5"/></svg><span>02</span></div><h3>Cadastre o aluno</h3><p>Registre os dados do cliente com orientação passo a passo dentro do portal.</p></article>
-      <article><div class="sm-landing-step-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M10 5h4M10 18h4M3 11l3-3m-3 3 3 3M21 11l-3-3m3 3-3 3"/></svg><span>03</span></div><h3>Envie pelo WhatsApp</h3><p>Compartilhe o link exclusivo. O cliente acessa a página de compra e conclui por conta própria.</p></article>
-      <article><div class="sm-landing-step-visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19V5m0 14h18"/><path d="m6 15 5-5 3 3 6-7"/><path d="M16 6h4v4"/></svg><span>04</span></div><h3>Acompanhe o resultado</h3><p>Veja o pedido, o pagamento e a comissão reconhecida somente após a confirmação.</p></article>
-    </div>
-  </div></section>
-  <section class="sm-landing-section sm-landing-courses" id="cursos"><div class="wrap">
-    <div class="sm-landing-heading"><span>02 / EDUCAÇÃO NO TRÂNSITO</span><h2 style="color: white;">CURSOS QUE ABREM<br><em>OPORTUNIDADES.</em></h2><p>Uma frente comercial para ampliar os serviços do seu estabelecimento.</p></div>
-    <div class="sm-landing-course-grid">
-      @for (course of featuredCourses; track course.id) {
-        <article class="sm-home-course-card">
-          <div class="sm-home-course-image">
-            <img [src]="course.image" [alt]="course.title" loading="lazy" />
-            <span class="sm-home-course-category">{{ course.category }}</span>
-          </div>
-          <div class="sm-home-course-content">
-            <div class="sm-home-course-meta">
-              <span>{{ course.hours ? course.hours + ' horas-aula' : 'Carga horária a confirmar' }}</span>
-              <span>{{ course.offers.length ? 'Homologação disponível' : 'Em preparação' }}</span>
+<main class="sm-new-home">
+    <section class="sm-v4-hero" id="inicio"><img class="sm-v4-hero-bg" src="images/hero-cinematica.webp" alt=""
+            aria-hidden="true" fetchpriority="high">
+        <div class="wrap sm-v4-hero-content">
+            <div class="sm-v4-hero-copy"><span class="sm-v4-eyebrow">PARCERIA E OPORTUNIDADES</span>
+                <h1>Seja parceiro da <em>Sexta Marcha.</em></h1>
+                <p>Amplie seu portfólio, gere novas oportunidades de receita e ofereça soluções para seus clientes no
+                    setor automotivo.</p>
+                <div class="sm-new-actions"><a routerLink="/cadastro-despachante" class="sm-new-primary">Torne-se
+                        parceiro <span>→</span></a><a href="#como-funciona" class="sm-v4-outline">Como funciona
+                        <span>↗</span></a></div>
             </div>
-            <h3>{{ course.title }}</h3>
-            <p>{{ course.description }}</p>
-            <div class="sm-home-course-audience"><strong>INDICADO PARA</strong><span>{{ course.audience }}</span></div>
-            <a routerLink="/educacao-no-transito" class="sm-home-course-action">Conhecer curso <span aria-hidden="true">→</span></a>
-          </div>
-        </article>
-      }
-    </div>
-    <a routerLink="/educacao-no-transito" class="sm-landing-text-link">CONHECER EDUCAÇÃO NO TRÂNSITO ↗</a>
-  </div></section>
-  <section class="sm-landing-section sm-landing-portal" id="portal"><div class="wrap sm-landing-portal-grid">
-    <div><span class="sm-landing-eyebrow">03 / SUA CENTRAL COMERCIAL</span><h2>SEU NEGÓCIO<br><em>NA SUA MÃO.</em></h2><p>Clientes cadastrados, links de compra, pedidos e comissões organizados no mesmo painel. O despachante acompanha cada venda sem precisar administrar o pagamento do aluno.</p><div class="sm-landing-actions"><a routerLink="/portal" class="sm-landing-btn">ENTRAR NO PORTAL ↗</a></div></div>
-    <div class="sm-landing-dashboard" aria-label="Ilustração de um painel de vendas, com valores fictícios"><div class="sm-dash-top"><b>SEXTA MARCHA</b><span>PORTAL COMERCIAL</span></div><div class="sm-dash-title">Seu painel, suas oportunidades.</div><div class="sm-dash-cards"><div><small>CLIENTES</small><strong>12</strong></div><div><small>AGUARDANDO</small><strong>05</strong></div><div><small>COMISSÃO TESTE</small><strong>R$ 84</strong></div></div><div class="sm-dash-line"><span>Reciclagem de condutores</span><b>AGUARDANDO</b></div><div class="sm-dash-line"><span>Reciclagem de condutores</span><b>TESTE PAGO</b></div><small class="sm-dash-disclaimer">ILUSTRAÇÃO · VALORES FICTÍCIOS</small></div>
-  </div></section>
-  <section class="sm-landing-section sm-landing-faq" id="duvidas"><div class="wrap"><div class="sm-landing-heading"><span>04 / PERGUNTAS FREQUENTES</span><h2>TUDO CLARO.<br><em>SEM COMPLICAÇÃO.</em></h2></div><div class="sm-landing-faq-grid"><details><summary>Preciso cobrar o cliente?</summary><p>Não. Você cadastra o aluno e compartilha o link. O cliente finaliza a compra na página de checkout.</p></details><details><summary>Quando a comissão é registrada?</summary><p>Somente depois da confirmação do pagamento. Na versão atual, o pagamento e as comissões são exclusivamente simulados.</p></details><details><summary>Já posso vender todos os cursos?</summary><p>Não. A disponibilidade depende de cada oferta. Atualmente a operação está em homologação.</p></details><details><summary>Como começo?</summary><p>Cadastre seu estabelecimento, aguarde aprovação e acesse o portal comercial.</p></details></div></div></section>
-  <section class="sm-landing-final" id="cadastro"><div class="wrap"><span>PRONTO PARA ACELERAR?</span><h2>SEU PRÓXIMO CLIENTE<br>PODE SER SUA <em>PRÓXIMA VENDA.</em></h2><p>Faça parte da Sexta Marcha e conheça uma nova forma de oferecer educação no trânsito.</p><div class="sm-landing-actions"><a routerLink="/cadastro-despachante" class="sm-landing-btn">CADASTRAR MEU ESTABELECIMENTO ↗</a><a routerLink="/portal" class="sm-landing-outline">JÁ SOU PARCEIRO →</a></div><small>PLATAFORMA EM HOMOLOGAÇÃO · PAGAMENTOS REAIS AINDA NÃO HABILITADOS</small></div></section>
+        </div>
+    </section>
+    <section class="sm-v4-value" id="vantagens">
+        <div class="wrap">
+            <div class="sm-v4-value-head">
+                <div><span class="sm-new-kicker">VANTAGENS DA PARCERIA</span>
+                    <h2>Mais valor para o <em>seu negócio.</em></h2>
+                </div>
+                <p>Uma parceria para despachantes e profissionais que desejam oferecer mais aos seus clientes e crescer
+                    com tecnologia.</p>
+            </div>
+            <div class="sm-v4-value-grid">
+                <article><span class="sm-v4-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <ellipse cx="8" cy="6" rx="5" ry="2.5" />
+                            <path d="M3 6v5c0 1.5 10 1.5 10 0V6M3 11v5c0 1.5 10 1.5 10 0v-5" />
+                            <ellipse cx="17" cy="14" rx="4" ry="2" />
+                            <path d="M13 14v5c0 2 8 2 8 0v-5" />
+                        </svg></span>
+                    <h3>Nova fonte<br>de receita</h3>
+                    <p>Oportunidades de comissão por vendas realizadas e confirmadas.</p>
+                </article>
+                <article><span class="sm-v4-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="8" r="3" />
+                            <circle cx="18" cy="9" r="2" />
+                            <path d="M2 21v-3a7 7 0 0 1 14 0v3M16 15a5 5 0 0 1 6 5" />
+                        </svg></span>
+                    <h3>Portfólio<br>mais completo</h3>
+                    <p>Ofereça capacitação e amplie os serviços disponíveis para seus clientes.</p>
+                </article>
+                <article><span class="sm-v4-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="14" rx="2" />
+                            <path d="M8 21h8M12 17v4m-4-11 3 3 5-5" />
+                        </svg></span>
+                    <h3>Plataforma<br>centralizada</h3>
+                    <p>Consulte cursos, acompanhe indicações e visualize o andamento das operações.</p>
+                </article>
+                <article><span class="sm-v4-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 20h18M5 16v4m5-8v8m5-12v12m5-16v16M4 11l6-4 5 2 5-6" />
+                        </svg></span>
+                    <h3>Mais clientes<br>e oportunidades</h3>
+                    <p>Crie novas possibilidades de atendimento e fortaleça seu relacionamento.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+    <section class="sm-v4-portal" id="plataforma">
+        <div class="wrap sm-v4-portal-grid">
+            <div class="sm-v4-device">
+                <div class="sm-v4-screen">
+                    <div class="sm-v4-camera"></div><img src="images/portal-real.webp"
+                        alt="Captura real do catálogo de cursos no Portal do Despachante da Sexta Marcha"
+                        loading="lazy">
+                </div>
+                <div class="sm-v4-keyboard"></div>
+            </div>
+            <div class="sm-v4-portal-copy"><span class="sm-v4-eyebrow">PORTAL DO DESPACHANTE</span>
+                <h2>Mais controle,<br>mais <em>resultados.</em></h2>
+                <p>Um ambiente para conhecer cursos, acompanhar indicações e consultar informações sobre suas
+                    oportunidades.</p>
+                <ul>
+                    <li>Consulte o catálogo de cursos</li>
+                    <li>Acompanhe pedidos e comissões</li>
+                    <li>Organize sua operação em um só lugar</li>
+                </ul><a routerLink="/portal" class="sm-new-primary">Conheça o portal <span>→</span></a><small>Imagem
+                    real do catálogo do portal. Recursos financeiros em homologação.</small>
+            </div>
+        </div>
+    </section>
+    <section class="sm-new-section sm-new-audience" id="pra-quem-e">
+        <div class="wrap">
+            <div class="sm-new-section-head">
+                <div><span class="sm-new-kicker">PRA QUEM É</span>
+                    <h2>Feito para quem vive o mercado automotivo e quer <em>aumentar a receita.</em></h2>
+                </div>
+                <p>Uma plataforma para profissionais que querem oferecer mais aos seus clientes e transformar cada
+                    atendimento em novas oportunidades.</p>
+            </div>
+            <div class="sm-new-audience-grid">
+                <article><img src="images/despachantes.webp" alt="Profissional parceiro em atendimento" loading="lazy">
+                    <div>
+                        <h3>Despachantes</h3>
+                        <p>Indique cursos de trânsito e acompanhe suas oportunidades de comissão.</p>
+                    </div>
+                </article>
+                <article><img src="images/lojistas.webp" alt="Profissional de loja automotiva" loading="lazy">
+                    <div>
+                        <h3>Lojistas e revendas</h3>
+                        <p>Amplie o atendimento com serviços e soluções para seus clientes.</p>
+                    </div>
+                </article>
+                <article><img src="images/vistoriadores.webp" alt="Profissional do setor automotivo" loading="lazy">
+                    <div>
+                        <h3>Vistoriadores</h3>
+                        <p>Conheça ferramentas para organizar e expandir sua operação.</p>
+                    </div>
+                </article>
+                <article class="sm-new-audience-text"><span class="sm-new-big-icon"><svg viewBox="0 0 24 24" width="32"
+                            height="32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <path d="m3 17 6-6 4 4 8-8" />
+                            <path d="M15 7h6v6" />
+                        </svg></span>
+                    <div>
+                        <h3>Outros profissionais</h3>
+                        <p>Novas possibilidades para negócios que atuam no ecossistema automotivo.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <section class="sm-v5-journey" id="como-funciona">
+        <div class="wrap">
+            <div class="sm-v5-journey-head">
+                <div><span class="sm-v4-eyebrow">COMO FUNCIONA</span>
+                    <h2>Simples, rápido<br>e <em>100% digital.</em></h2>
+                </div>
+                <p>Você cuida do relacionamento com seus clientes. A Sexta Marcha oferece a estrutura para transformar
+                    novas oportunidades em negócio.</p>
+            </div>
+            <div class="sm-v5-journey-grid">
+                <article><span class="sm-v5-step-icon">01</span>
+                    <h3>Cadastre-se</h3>
+                    <p>Crie seu perfil de parceiro e informe seu estabelecimento.</p>
+                </article>
+                <article><span class="sm-v5-step-icon">02</span>
+                    <h3>Ative seu acesso</h3>
+                    <p>Nossa equipe analisa o cadastro e libera o portal.</p>
+                </article>
+                <article><span class="sm-v5-step-icon">03</span>
+                    <h3>Conheça os cursos</h3>
+                    <p>Explore as opções de capacitação e compartilhe com seus clientes.</p>
+                </article>
+                <article><span class="sm-v5-step-icon">04</span>
+                    <h3>Acompanhe</h3>
+                    <p>Consulte indicações e acompanhe o andamento das operações.</p>
+                </article>
+            </div>
+            <p class="sm-v5-note">Plataforma em homologação. Pagamentos e comissões reais ainda não estão habilitados.
+            </p>
+        </div>
+    </section>
+    <section class="sm-new-section sm-new-solutions" id="solucoes">
+        <div class="wrap">
+            <div class="sm-new-section-head">
+                <div><span class="sm-new-kicker">NOSSAS SOLUÇÕES</span>
+                    <h2>Mais serviços. <em>Mais possibilidades.</em></h2>
+                </div>
+                <p>Começamos pela educação no trânsito e estamos construindo um ecossistema de soluções para o setor.
+                </p>
+            </div>
+            <div class="sm-new-solutions-grid"><a routerLink="/educacao-no-transito"
+                    class="sm-new-solution featured"><span class="sm-new-solution-icon"><svg viewBox="0 0 24 24"
+                            width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m2 10 10-5 10 5-10 5-10-5Z" />
+                            <path d="M6 12v5c3 3 9 3 12 0v-5M22 10v7" />
+                        </svg></span><span class="sm-new-status">EM HOMOLOGAÇÃO</span>
+                    <h3>Educação no Trânsito</h3>
+                    <p>Cursos e capacitação para seus clientes, com acompanhamento pelo portal do parceiro.</p>
+                    <strong>Conhecer solução ↗</strong>
+                </a>
+                <article class="sm-new-solution"><span class="sm-new-solution-icon"><svg viewBox="0 0 24 24" width="32"
+                            height="32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+                            <path d="M14 2v6h6M8 13h8M8 17h8" />
+                        </svg></span><span class="sm-new-status">CONSULTE DISPONIBILIDADE</span>
+                    <h3>DOC GO</h3>
+                    <p>Soluções para gestão e solicitação de documentos veiculares.</p>
+                </article>
+                <article class="sm-new-solution"><span class="sm-new-solution-icon"><svg viewBox="0 0 24 24" width="32"
+                            height="32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+                            <path d="m9 12 2 2 4-4" />
+                        </svg></span><span class="sm-new-status">CONSULTE DISPONIBILIDADE</span>
+                    <h3>Vistoria GO</h3>
+                    <p>Ferramentas para agendamento e acompanhamento de vistorias.</p>
+                </article>
+                <article class="sm-new-solution"><span class="sm-new-solution-icon"><svg viewBox="0 0 24 24" width="32"
+                            height="32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="5" width="18" height="15" rx="2" />
+                            <path d="M3 9h18M16 15h3" />
+                        </svg></span><span class="sm-new-status">EM PLANEJAMENTO</span>
+                    <h3>CREDTUDO</h3>
+                    <p>Possibilidades de soluções de crédito para o mercado automotivo.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+    <section class="sm-v5-courses sm-v6-course-continuation" id="cursos">
+        <div class="wrap">
+            <div class="sm-v5-courses-head">
+                <div><span class="sm-new-kicker">EDUCAÇÃO NO TRÂNSITO</span>
+                    <h2>Uma nova oportunidade<br><em>em cada atendimento.</em></h2>
+                </div>
+                <div>
+                    <p>Ofereça aos seus clientes acesso a capacitações para diferentes necessidades do setor de
+                        transporte.</p><a routerLink="/educacao-no-transito" class="sm-v5-text-link">Explorar catálogo
+                        completo <span>↗</span></a>
+                </div>
+            </div>
+            <div class="sm-v5-courses-grid">@for (course of featuredCourses; track course.id) {<article><img
+                        [src]="course.image" [alt]="course.title" loading="lazy">
+                    <div class="sm-v5-course-body"><small>{{ course.category }}</small>
+                        <h3>{{ course.title }}</h3>
+                        <p>{{ course.description }}</p><a routerLink="/educacao-no-transito">Conhecer curso
+                            <span>↗</span></a>
+                    </div>
+                </article>}</div>
+        </div>
+    </section>
+    <section class="sm-v5-final" id="cadastro">
+        <div class="sm-v5-final-photo" aria-hidden="true">
+            <div class="cta-profissional">
+                <img src="images/profissional-sexta-marcha.png" alt="Profissional Sexta Marcha" />
+            </div>
+        </div>
+        <div class="wrap sm-v5-final-inner">
+            <div><span class="sm-new-kicker">SEJA PARCEIRO</span>
+                <h2>Faça parte desse <em>movimento.</em></h2>
+                <p>Mais oportunidades para seus clientes. Novas possibilidades para o seu negócio.</p>
+            </div><a routerLink="/cadastro-despachante" class="sm-new-primary">Quero ser parceiro agora
+                <span>→</span></a>
+        </div>
+    </section>
 </main>

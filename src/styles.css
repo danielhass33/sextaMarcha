@@ -1030,3 +1030,56 @@ h1 em {
     transition: none !important;
   }
 }
+
+/* Sexta Marcha: navegação clara na landing */
+body:has(.sm-new-home) .navbar{background:#fff!important;color:#111!important;border-bottom:1px solid #eee!important}body:has(.sm-new-home) .hamburger span{background:#111!important}body:has(.sm-new-home) .footer{background:#161616;color:#fff}
+
+/* Navegação da landing: legibilidade e menu flutuante */
+body:has(.sm-new-home) .navbar{position:relative!important;box-shadow:0 1px 0 #0000000c}
+body:has(.sm-new-home) .logo img{filter:none;max-height:65px;object-fit:contain}
+body:has(.sm-new-home) .nav-dropdown{top:calc(100% - 8px);background:#fff;color:#171717;border:1px solid #e9e9e9;border-radius:15px;box-shadow:0 22px 65px #00000022;min-width:270px;padding:10px;z-index:100}
+body:has(.sm-new-home) .nav-dropdown a{display:block;color:#202020!important;border-radius:9px;padding:14px 17px;font-size:14px;line-height:1.35}
+body:has(.sm-new-home) .nav-dropdown a:hover{color:#ff3b0a!important;background:#fff1eb}
+body:has(.sm-new-home) .footer{padding:70px 0 30px}
+body:has(.sm-new-home) .footer-grid{gap:70px}
+body:has(.sm-new-home) .footer img{width:205px}
+body:has(.sm-new-home) .footer p,body:has(.sm-new-home) .footer a{font-size:14px;line-height:1.6}
+body:has(.sm-new-home) .footer strong{font-size:12px}
+@media(max-width:700px){body:has(.sm-new-home) .nav-dropdown{right:19px;left:19px;min-width:0;top:calc(100% - 2px)}body:has(.sm-new-home) .footer-grid{gap:32px}}
+
+/* V7: navbar sobre a imagem da hero; mesma coluna central dos blocos */
+body:has(.sm-new-home) .navbar{position:absolute!important;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(8,8,9,.72),rgba(8,8,9,.12))!important;border-bottom:1px solid #ffffff25!important;box-shadow:none!important;color:#fff!important}
+body:has(.sm-new-home) .nav-inner{width:min(1280px,calc(100% - 80px));height:92px}
+body:has(.sm-new-home) .hamburger span{background:#fff!important}
+body:has(.sm-new-home) .logo img{filter:drop-shadow(0 2px 5px #0009)}
+body:has(.sm-new-home) .nav-dropdown{right:max(40px,calc((100% - 1280px)/2))}
+@media(max-width:950px){body:has(.sm-new-home) .nav-inner{width:calc(100% - 52px)}}
+@media(max-width:620px){body:has(.sm-new-home) .nav-inner{width:calc(100% - 36px);height:78px}body:has(.sm-new-home) .nav-dropdown{right:18px;left:18px}}
+
+/* V8: desktop navigation and clean overlay header */
+.desktop-nav {display:flex;align-items:center;gap:clamp(12px,1.5vw,25px);margin-left:auto;}
+.desktop-nav a {color:#fff;text-decoration:none;font-size:13px;font-weight:700;white-space:nowrap;transition:color .2s ease;}
+.desktop-nav a:hover {color:#ff3b0a;}
+.desktop-nav .desktop-nav-cta {background:#ff3b0a;color:#fff;padding:12px 16px;border-radius:8px;}
+.desktop-nav .desktop-nav-cta:hover {background:#e73509;color:#fff;}
+.desktop-nav .desktop-nav-login {border:1px solid #ffffff80;border-radius:8px;padding:11px 15px;}
+body:has(.sm-new-home) .navbar {border:0!important;border-bottom:0!important;box-shadow:none!important;}
+body:has(.sm-new-home) .nav-inner {border:0!important;box-shadow:none!important;}
+body:has(.sm-new-home) .hamburger {display:none!important;}
+body:has(.sm-new-home) .nav-dropdown {display:none!important;}
+@media(max-width:1100px) {
+  .desktop-nav {display:none!important;}
+  body:has(.sm-new-home) .hamburger {display:grid!important;}
+  body:has(.sm-new-home) .nav-dropdown.open {display:grid!important;}
+}
+
+
+/* V9 — restaura o rodapé preto da landing, sobrepondo estilos legados. */
+body:has(.sm-new-home) .footer {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-top: 1px solid #292929 !important;
+}
+body:has(.sm-new-home) .footer a { color: #d2d2d2 !important; }
+body:has(.sm-new-home) .footer p { color: #a9a9a9 !important; }
+body:has(.sm-new-home) .footer strong { color: #ff3b0a !important; }

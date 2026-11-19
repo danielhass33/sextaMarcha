@@ -1,1 +1,9 @@
-/* Estilos específicos deste componente. */
+/* Rodapé escuro restaurado na landing, sem interferir no portal. */
+:host .footer, :host footer.footer {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-top: 1px solid #292929 !important;
+}
+:host .footer a { color: #d2d2d2 !important; }
+:host .footer p { color: #a9a9a9 !important; }
+:host .footer strong { color: #ff3b0a !important; }
